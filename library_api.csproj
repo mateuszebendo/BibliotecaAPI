@@ -7,8 +7,37 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.1.35" />
+    <PackageReference Include="MassTransit.RabbitMQ" Version="8.2.3" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.7" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.1" />
+    <PackageReference Include="Npgsql" Version="8.0.3" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="presentation\controllers\zeze.code-profile" />
+    <None Remove="Bus\RelatarioSolicitadoEventConsumer.cs\**" />
+    <None Remove="Bus\**" />
+    <None Remove="Relatorios\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Bus\RelatarioSolicitadoEventConsumer.cs\**" />
+    <Compile Remove="Bus\**" />
+    <Compile Remove="Relatorios\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="Bus\RelatarioSolicitadoEventConsumer.cs\**" />
+    <EmbeddedResource Remove="Bus\**" />
+    <EmbeddedResource Remove="Relatorios\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Bus\RelatarioSolicitadoEventConsumer.cs\**" />
+    <Content Remove="Bus\**" />
+    <Content Remove="Relatorios\**" />
   </ItemGroup>
 
 </Project>
