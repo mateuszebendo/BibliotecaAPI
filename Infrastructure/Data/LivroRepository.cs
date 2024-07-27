@@ -3,7 +3,6 @@ using library_api.Application.DTOs;
 using library_api.Domain.Repositories;
 using library_api.Infrastructure.DataBase;
 using library_api.Presentation.Models;
-using Microsoft.Data.SqlClient;
 using Npgsql;
 
 namespace library_api.Infrastructure.Data;
@@ -37,18 +36,41 @@ public class LivroRepository : ILivroRepository
         }
     }
     
-    public Task<LivroDTO> getLivroByIdAsync(int id)
+    public async Task<LivroDTO> getLivroByIdAsync(int id)
     {
-        throw new NotImplementedException();
+        string sqlQuery = @"select * from livro where livro_id = @Id";
+
+        using (var connection = new NpgsqlConnection(_connectionString))
+        {
+            return await connection.QueryFirstOrDefaultAsync<LivroDTO>(sqlQuery, new {Id = id});
+        }
     }
 
-    public Task<bool> putLivroAsync(LivroRequest request, int id)
+    public async Task<bool> putLivroAsync(LivroRequest request, int id)
     {
-        throw new NotImplementedException();
+        string sqlQuery = @"update livro
+                            set nome=@nome, editora=@editora, genero=@genero, autor=@autor
+                            where livro_id=@Id";
+        var parametros = new DynamicParameters();
+        parametros.Add("nome", request.nome);
+        parametros.Add("editora", request.editora);
+        parametros.Add("genero", request.genero);
+        parametros.Add("autor", request.autor);
+        parametros.Add("Id", id);
+        
+        using(var connection = new NpgsqlConnection(_connectionString))
+        {
+            return await connection.ExecuteAsync(sqlQuery, parametros) > 0;
+        }
     }
 
-    public Task<bool> deletaLivroByIdAsync(int id)
+    public async Task<bool> deletaLivroByIdAsync(int id)
     {
-        throw new NotImplementedException();
+        string sqlQuery = @"delete from livro where livro_id = @Id";
+
+        using (var connection = new NpgsqlConnection(_connectionString))
+        {
+            return await connection.ExecuteAsync(sqlQuery, new {Id = id}) > 0;
+        }
     }
 }

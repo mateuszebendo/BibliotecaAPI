@@ -1,7 +1,5 @@
-// using library_api.Infrastructure.Messaging;
-
+using library_api.Infrastructure.Messaging;
 using library_api.Domain.Repositories;
-using library_api.presentation.controllers;
 using library_api.Infrastructure.Data;
 using library_api.Infrastructure.DataBase;
 
@@ -13,8 +11,7 @@ builder.Services.AddControllers();
 builder.Services.AddScoped<ILivroRepository, LivroRepository>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-// builder.Services.AddRabbitMQService();
+builder.Services.AddRabbitMQService();
 
 var app = builder.Build();
 

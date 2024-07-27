@@ -1,3 +1,5 @@
+using library_api.Bus;
+using library_api.Domain;
 using library_api.Domain.Repositories;
 using library_api.Presentation.Models;
 using MassTransit;
@@ -5,33 +7,38 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace library_api.presentation.controllers;
+
 [ApiController]
-[Route("[controller]")]
+[Route("livros")]
 
 public class LivroController : ControllerBase
 {
     private readonly ILivroRepository _livroRepository;
-    
-    public LivroController(ILivroRepository livroRepository)
+    private readonly IBus _bus;
+
+    public LivroController(ILivroRepository livroRepository, IBus bus)
     {
         _livroRepository = livroRepository;
+        _bus = bus;
     }
 
     [HttpPost]
-    public async Task<IActionResult> Post(LivroRequest request)
+    public async Task<IActionResult> Post([FromBody] LivroRequest request)
     {
         if (string.IsNullOrEmpty(request.nome))
         {
             return BadRequest("Preencha o campo nome!");
         }
 
+        var eventRequest = new LivroCadastroEvent(request.nome);
+
+        await _bus.Publish(eventRequest);
+
         var foiAdicionado = await _livroRepository.postLivroAsync(request);
 
-        return foiAdicionado ? 
-            Ok("Livro adicionado com sucesso!") : 
-            BadRequest("Erro ao adicionar livro");
+        return foiAdicionado ? Ok("Livro adicionado com sucesso!") : BadRequest("Erro ao adicionar livro");
     }
-    
+
     [HttpGet]
     public async Task<IActionResult> Get()
     {
@@ -39,27 +46,28 @@ public class LivroController : ControllerBase
 
         return livros.Any() ? Ok(livros) : NoContent();
     }
-    // public static void AddApiEndPoints(this WebApplication app)
-    // {
-    //     app.MapPost("solicitar-relatorio/", async (string name, IBus bus) =>
-    //     {
-    //         var solicitacao = new SolicitacaoRelatorio()
-    //         {
-    //             Id = Guid.NewGuid(),
-    //             Nome = name, 
-    //             Status = "PENDENTE",
-    //             ProcessedTime = null
-    //         };
-    //
-    //         var eventRequest = new RelatorioSolicitadoEvent(solicitacao.Id, solicitacao.Nome);
-    //         
-    //         Lista.Relatorios.Add(solicitacao);
-    //
-    //         await bus.Publish(eventRequest);
-    //
-    //         return Results.Ok(solicitacao);
-    //     });
-    //
-    //     app.MapGet("get-relatorio", () => Lista.Relatorios);
-    // }
-}
+    
+    [HttpGet("id")]
+    public async Task<IActionResult> Get(int id)
+    {
+        var livro = await _livroRepository.getLivroByIdAsync(id);
+
+        return livro != null ? Ok(livro) : NotFound("Livro não encontrado");
+    }
+    
+    [HttpPut("id")]
+    public async Task<IActionResult> Put(int id, [FromBody] LivroRequest request)
+    {
+        var livro = await _livroRepository.putLivroAsync(request, id);
+
+        return livro ? Ok("Livro atualizado com sucesso!") : NotFound("Livro não encontrado");
+    }
+    
+    [HttpDelete("id")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var livro = await _livroRepository.deletaLivroByIdAsync(id);
+
+        return livro ? Ok("Livro deletado com sucesso") : NotFound("Livro não encontrado");
+    }
+}    
