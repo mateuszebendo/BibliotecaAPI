@@ -15,7 +15,6 @@ public class Emprestimo
         DataEmprestimo = emprestimoDto.DataEmprestimo;
         DataDevolucao = emprestimoDto.DataDevolucao;
         Status = emprestimoDto.Status;
-        ValorMulta = emprestimoDto.ValorMulta;
         UsuarioId = emprestimoDto.UsuarioId;
         LivroId = emprestimoDto.LivroId;
     }
@@ -26,13 +25,11 @@ public class Emprestimo
     [Required]
     public DateTime DataEmprestimo { get; set; }
     
-    public DateTime? DataDevolucao { get; set; }
+    public DateTime DataDevolucao { get; set; }
     
     [Required]
     [EnumDataType(typeof(StatusEmprestimo))]
     public StatusEmprestimo Status { get; set; }
-    
-    public int? ValorMulta { get; set; }
     
     [ForeignKey("Usuario")]
     public int UsuarioId { get; set; }

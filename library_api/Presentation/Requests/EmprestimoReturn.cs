@@ -12,7 +12,6 @@ public class EmprestimoReturn
         DataEmprestimo = emprestimoDto.DataEmprestimo;
         DataDevolucao = emprestimoDto.DataDevolucao;
         Status = emprestimoDto.Status.ToString();
-        ValorMulta = emprestimoDto.ValorMulta;
         UsuarioId = emprestimoDto.UsuarioId;
         LivroId = emprestimoDto.LivroId;
     }
@@ -24,9 +23,7 @@ public class EmprestimoReturn
     public DateTime? DataDevolucao { get; init; }
 
     public string Status { get; init; }
-
-    public int? ValorMulta { get; init; }
-
+    
     public int UsuarioId { get; init; }
 
     public int LivroId { get; init; }

@@ -3,7 +3,7 @@
   <database-model serializer="dbm" dbms="POSTGRES" family-id="POSTGRES" format-version="4.52">
     <root id="1">
       <DateStyle>dmy</DateStyle>
-      <IntrospectionStateNumber>1925</IntrospectionStateNumber>
+      <IntrospectionStateNumber>1936</IntrospectionStateNumber>
       <ServerVersion>14.12</ServerVersion>
       <StartupTime>1722174747</StartupTime>
       <TimeZones>true ACDT
@@ -1400,7 +1400,7 @@ true posixrules
 13433||10|C|G
 13433||-9223372036854775808|U|G
 13433||10|U|G</Grants>
-      <IntrospectionStateNumber>1925</IntrospectionStateNumber>
+      <IntrospectionStateNumber>1936</IntrospectionStateNumber>
       <ObjectId>18652</ObjectId>
       <OwnerName>postgres</OwnerName>
     </database>
@@ -4833,8 +4833,8 @@ true posixrules
     <schema id="263" parent="2" name="public">
       <Comment>standard public schema</Comment>
       <Current>1</Current>
-      <IntrospectionStateNumber>1925</IntrospectionStateNumber>
-      <LastIntrospectionLocalTimestamp>2024-07-29.00:18:04</LastIntrospectionLocalTimestamp>
+      <IntrospectionStateNumber>1936</IntrospectionStateNumber>
+      <LastIntrospectionLocalTimestamp>2024-07-29.01:58:33</LastIntrospectionLocalTimestamp>
       <ObjectId>2200</ObjectId>
       <StateNumber>526</StateNumber>
       <OwnerName>postgres</OwnerName>
@@ -4849,7 +4849,31 @@ Emprestado</Labels>
       <SubKind>enum</SubKind>
       <OwnerName>postgres</OwnerName>
     </object-type>
-    <sequence id="265" parent="263" name="livro_livro_id_seq">
+    <sequence id="265" parent="263" name="emprestimo_emprestimoid_seq">
+      <DasType>integer|0s</DasType>
+      <ObjectId>18935</ObjectId>
+      <SequenceIdentity>1</SequenceIdentity>
+      <StartValue>1</StartValue>
+      <StateNumber>1934</StateNumber>
+      <OwnerName>postgres</OwnerName>
+    </sequence>
+    <sequence id="266" parent="263" name="emprestimo_livroid_seq">
+      <DasType>integer|0s</DasType>
+      <ObjectId>18937</ObjectId>
+      <SequenceIdentity>1</SequenceIdentity>
+      <StartValue>1</StartValue>
+      <StateNumber>1934</StateNumber>
+      <OwnerName>postgres</OwnerName>
+    </sequence>
+    <sequence id="267" parent="263" name="emprestimo_usuarioid_seq">
+      <DasType>integer|0s</DasType>
+      <ObjectId>18936</ObjectId>
+      <SequenceIdentity>1</SequenceIdentity>
+      <StartValue>1</StartValue>
+      <StateNumber>1934</StateNumber>
+      <OwnerName>postgres</OwnerName>
+    </sequence>
+    <sequence id="268" parent="263" name="livro_livro_id_seq">
       <DasType>integer|0s</DasType>
       <ObjectId>18856</ObjectId>
       <SequenceIdentity>1</SequenceIdentity>
@@ -4857,7 +4881,7 @@ Emprestado</Labels>
       <StateNumber>1903</StateNumber>
       <OwnerName>postgres</OwnerName>
     </sequence>
-    <sequence id="266" parent="263" name="usuarios_usuario_id_seq">
+    <sequence id="269" parent="263" name="usuarios_usuario_id_seq">
       <DasType>integer|0s</DasType>
       <ObjectId>18891</ObjectId>
       <SequenceIdentity>1</SequenceIdentity>
@@ -4865,19 +4889,104 @@ Emprestado</Labels>
       <StateNumber>1923</StateNumber>
       <OwnerName>postgres</OwnerName>
     </sequence>
-    <table id="267" parent="263" name="livro">
+    <table id="270" parent="263" name="emprestimo">
+      <ObjectId>18938</ObjectId>
+      <StateNumber>1934</StateNumber>
+      <AccessMethodId>2</AccessMethodId>
+      <OwnerName>postgres</OwnerName>
+    </table>
+    <table id="271" parent="263" name="livro">
       <ObjectId>18857</ObjectId>
-      <StateNumber>1917</StateNumber>
+      <StateNumber>1932</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>postgres</OwnerName>
     </table>
-    <table id="268" parent="263" name="usuarios">
+    <table id="272" parent="263" name="usuarios">
       <ObjectId>18892</ObjectId>
-      <StateNumber>1923</StateNumber>
+      <StateNumber>1932</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>postgres</OwnerName>
     </table>
-    <column id="269" parent="267" name="livroid">
+    <column id="273" parent="270" name="emprestimoid">
+      <DasType>integer|0s</DasType>
+      <DefaultExpression>nextval(&apos;emprestimo_emprestimoid_seq&apos;::regclass)</DefaultExpression>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StateNumber>1934</StateNumber>
+      <SequenceId>18935</SequenceId>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="274" parent="270" name="dataemprestimo">
+      <DasType>date|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+      <StateNumber>1934</StateNumber>
+      <TypeId>1082</TypeId>
+    </column>
+    <column id="275" parent="270" name="datadevolucao">
+      <DasType>date|0s</DasType>
+      <Position>3</Position>
+      <StateNumber>1934</StateNumber>
+      <TypeId>1082</TypeId>
+    </column>
+    <column id="276" parent="270" name="status">
+      <DasType>varchar(50)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>4</Position>
+      <StateNumber>1934</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="277" parent="270" name="usuarioid">
+      <DasType>integer|0s</DasType>
+      <DefaultExpression>nextval(&apos;emprestimo_usuarioid_seq&apos;::regclass)</DefaultExpression>
+      <NotNull>1</NotNull>
+      <Position>5</Position>
+      <StateNumber>1934</StateNumber>
+      <SequenceId>18936</SequenceId>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="278" parent="270" name="livroid">
+      <DasType>integer|0s</DasType>
+      <DefaultExpression>nextval(&apos;emprestimo_livroid_seq&apos;::regclass)</DefaultExpression>
+      <NotNull>1</NotNull>
+      <Position>6</Position>
+      <StateNumber>1934</StateNumber>
+      <SequenceId>18937</SequenceId>
+      <TypeId>23</TypeId>
+    </column>
+    <foreign-key id="279" parent="270" name="emprestimo_usuarioid_fkey">
+      <ColNames>usuarioid</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>18946</ObjectId>
+      <StateNumber>1934</StateNumber>
+      <RefKeyColPositions>1</RefKeyColPositions>
+      <RefTableId>18892</RefTableId>
+    </foreign-key>
+    <foreign-key id="280" parent="270" name="emprestimo_livroid_fkey">
+      <ColNames>livroid</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>18951</ObjectId>
+      <StateNumber>1934</StateNumber>
+      <RefKeyColPositions>1</RefKeyColPositions>
+      <RefTableId>18857</RefTableId>
+    </foreign-key>
+    <index id="281" parent="270" name="emprestimo_pkey">
+      <ColNames>emprestimoid</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>18944</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>1934</StateNumber>
+      <Unique>1</Unique>
+      <AccessMethodId>403</AccessMethodId>
+    </index>
+    <key id="282" parent="270" name="emprestimo_pkey">
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>18945</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>1934</StateNumber>
+      <UnderlyingIndexId>18944</UnderlyingIndexId>
+    </key>
+    <column id="283" parent="271" name="livroid">
       <DasType>integer|0s</DasType>
       <DefaultExpression>nextval(&apos;livro_livro_id_seq&apos;::regclass)</DefaultExpression>
       <NotNull>1</NotNull>
@@ -4886,40 +4995,40 @@ Emprestado</Labels>
       <SequenceId>18856</SequenceId>
       <TypeId>23</TypeId>
     </column>
-    <column id="270" parent="267" name="nome">
+    <column id="284" parent="271" name="nome">
       <DasType>varchar(255)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StateNumber>1903</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <column id="271" parent="267" name="editora">
+    <column id="285" parent="271" name="editora">
       <DasType>varchar(255)|0s</DasType>
       <Position>3</Position>
       <StateNumber>1903</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <column id="272" parent="267" name="genero">
+    <column id="286" parent="271" name="genero">
       <DasType>varchar(255)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>4</Position>
       <StateNumber>1917</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <column id="273" parent="267" name="autor">
+    <column id="287" parent="271" name="autor">
       <DasType>varchar(255)|0s</DasType>
       <Position>5</Position>
       <StateNumber>1903</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <column id="274" parent="267" name="disponibilidade">
+    <column id="288" parent="271" name="disponibilidade">
       <DasType>varchar(255)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>6</Position>
       <StateNumber>1912</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <index id="275" parent="267" name="livro_pkey">
+    <index id="289" parent="271" name="livro_pkey">
       <ColNames>livroid</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>18863</ObjectId>
@@ -4928,14 +5037,14 @@ Emprestado</Labels>
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <key id="276" parent="267" name="livro_pkey">
+    <key id="290" parent="271" name="livro_pkey">
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>18864</ObjectId>
       <Primary>1</Primary>
       <StateNumber>1903</StateNumber>
       <UnderlyingIndexId>18863</UnderlyingIndexId>
     </key>
-    <column id="277" parent="268" name="usuarioid">
+    <column id="291" parent="272" name="usuarioid">
       <DasType>integer|0s</DasType>
       <DefaultExpression>nextval(&apos;usuarios_usuario_id_seq&apos;::regclass)</DefaultExpression>
       <NotNull>1</NotNull>
@@ -4944,49 +5053,49 @@ Emprestado</Labels>
       <SequenceId>18891</SequenceId>
       <TypeId>23</TypeId>
     </column>
-    <column id="278" parent="268" name="nome">
+    <column id="292" parent="272" name="nome">
       <DasType>varchar(50)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StateNumber>1923</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <column id="279" parent="268" name="email">
+    <column id="293" parent="272" name="email">
       <DasType>varchar(255)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StateNumber>1923</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <column id="280" parent="268" name="telefone">
+    <column id="294" parent="272" name="telefone">
       <DasType>varchar(15)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>4</Position>
       <StateNumber>1923</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <column id="281" parent="268" name="cargo">
+    <column id="295" parent="272" name="cargo">
       <DasType>varchar(50)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>5</Position>
       <StateNumber>1923</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <column id="282" parent="268" name="senha">
+    <column id="296" parent="272" name="senha">
       <DasType>varchar(255)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>6</Position>
       <StateNumber>1923</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <column id="283" parent="268" name="status">
+    <column id="297" parent="272" name="status">
       <DasType>varchar(50)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>7</Position>
       <StateNumber>1923</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <index id="284" parent="268" name="usuarios_pkey">
+    <index id="298" parent="272" name="usuarios_pkey">
       <ColNames>usuarioid</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>18898</ObjectId>
@@ -4995,7 +5104,7 @@ Emprestado</Labels>
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <index id="285" parent="268" name="usuarios_email_key">
+    <index id="299" parent="272" name="usuarios_email_key">
       <ColNames>email</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>18900</ObjectId>
@@ -5006,7 +5115,7 @@ Emprestado</Labels>
       <CollationIds>100</CollationIds>
       <CollationParentNames>pg_catalog</CollationParentNames>
     </index>
-    <index id="286" parent="268" name="usuarios_telefone_key">
+    <index id="300" parent="272" name="usuarios_telefone_key">
       <ColNames>telefone</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>18902</ObjectId>
@@ -5017,20 +5126,20 @@ Emprestado</Labels>
       <CollationIds>100</CollationIds>
       <CollationParentNames>pg_catalog</CollationParentNames>
     </index>
-    <key id="287" parent="268" name="usuarios_pkey">
+    <key id="301" parent="272" name="usuarios_pkey">
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>18899</ObjectId>
       <Primary>1</Primary>
       <StateNumber>1923</StateNumber>
       <UnderlyingIndexId>18898</UnderlyingIndexId>
     </key>
-    <key id="288" parent="268" name="usuarios_email_key">
+    <key id="302" parent="272" name="usuarios_email_key">
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>18901</ObjectId>
       <StateNumber>1923</StateNumber>
       <UnderlyingIndexId>18900</UnderlyingIndexId>
     </key>
-    <key id="289" parent="268" name="usuarios_telefone_key">
+    <key id="303" parent="272" name="usuarios_telefone_key">
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>18903</ObjectId>
       <StateNumber>1923</StateNumber>

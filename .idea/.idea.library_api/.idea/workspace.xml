@@ -9,11 +9,29 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bc5a2597-b7a3-496f-abca-2dcd2a50111b" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/library_api/Application/DTOs/EmprestimoDTO.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/library_api/Domain/Entities/Emprestimo.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/library_api/Domain/Enums/StatusEmprestimo.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/library_api/Application/ApplicationServices/EmprestimoService.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/library_api/Domain/Repositories/IEmprestimoRepository.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/library_api/Infrastructure/Data/EmprestimoRepository.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/library_api/Presentation/controllers/EmprestimoController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.library_api/.idea/dataSources/1c7cbcd5-f7e9-4833-ba8e-61f57555bc4a.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.library_api/.idea/dataSources/1c7cbcd5-f7e9-4833-ba8e-61f57555bc4a.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.library_api/.idea/dataSources/1c7cbcd5-f7e9-4833-ba8e-61f57555bc4a/storage_v2/_src_/database/library.uyToCQ/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.library_api/.idea/dataSources/1c7cbcd5-f7e9-4833-ba8e-61f57555bc4a/storage_v2/_src_/database/library.uyToCQ/schema/public.abK9xQ.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.library_api/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.library_api/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library_api/Domain/Enums/StatusUsuario.cs" beforeDir="false" afterPath="$PROJECT_DIR$/library_api/Domain/Enums/StatusUsuario.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/library_api/Application/DTOs/EmprestimoDTO.cs" beforeDir="false" afterPath="$PROJECT_DIR$/library_api/Application/DTOs/EmprestimoDTO.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/library_api/Domain/Entities/Emprestimo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/library_api/Domain/Entities/Emprestimo.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/library_api/Domain/Enums/StatusEmprestimo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/library_api/Domain/Enums/StatusEmprestimo.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/library_api/Presentation/Requests/EmprestimoRequest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/library_api/Presentation/Requests/EmprestimoRequest.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/library_api/Presentation/Requests/EmprestimoReturn.cs" beforeDir="false" afterPath="$PROJECT_DIR$/library_api/Presentation/Requests/EmprestimoReturn.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/library_api/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/library_api/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/library_api/bin/Debug/net8.0/library_api.dll" beforeDir="false" afterPath="$PROJECT_DIR$/library_api/bin/Debug/net8.0/library_api.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/library_api/bin/Debug/net8.0/library_api.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/library_api/bin/Debug/net8.0/library_api.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/library_api/obj/Debug/net8.0/library_api.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/library_api/obj/Debug/net8.0/library_api.AssemblyInfo.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/library_api/obj/Debug/net8.0/library_api.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/library_api/obj/Debug/net8.0/library_api.AssemblyInfoInputs.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/library_api/obj/Debug/net8.0/library_api.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/library_api/obj/Debug/net8.0/library_api.csproj.CoreCompileInputs.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/library_api/obj/Debug/net8.0/library_api.dll" beforeDir="false" afterPath="$PROJECT_DIR$/library_api/obj/Debug/net8.0/library_api.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/library_api/obj/Debug/net8.0/library_api.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/library_api/obj/Debug/net8.0/library_api.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/library_api/obj/Debug/net8.0/library_api.sourcelink.json" beforeDir="false" afterPath="$PROJECT_DIR$/library_api/obj/Debug/net8.0/library_api.sourcelink.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/library_api/obj/Debug/net8.0/ref/library_api.dll" beforeDir="false" afterPath="$PROJECT_DIR$/library_api/obj/Debug/net8.0/ref/library_api.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/library_api/obj/Debug/net8.0/refint/library_api.dll" beforeDir="false" afterPath="$PROJECT_DIR$/library_api/obj/Debug/net8.0/refint/library_api.dll" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -106,7 +124,7 @@
       <updated>1722176037736</updated>
       <workItem from="1722176039398" duration="2044000" />
       <workItem from="1722181375585" duration="8000" />
-      <workItem from="1722181392095" duration="22904000" />
+      <workItem from="1722181392095" duration="28004000" />
     </task>
     <servers />
   </component>
