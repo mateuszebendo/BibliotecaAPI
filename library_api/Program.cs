@@ -4,6 +4,8 @@ using library_api.Domain.Repositories;
 using library_api.Domain.Services;
 using library_api.Infrastructure.Data;
 using library_api.Infrastructure.DataBase;
+using library_api.Infrastructure.Messaging.Consumers;
+using library_api.Infrastructure.Messaging.Producers;
 using Npgsql;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,14 +15,18 @@ DatabaseConfig.Initialize(configuration);
 builder.Services.AddControllers();
 builder.Services.AddScoped<ILivroRepository, LivroRepository>();
 builder.Services.AddScoped<LivroService>();
+builder.Services.AddSingleton<LivroProducer>();
+builder.Services.AddSingleton<LivroConsumer>();
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<UsuarioService>();
 builder.Services.AddScoped<IEmprestimoRepository, EmprestimoRepository>();
 builder.Services.AddScoped<EmprestimoService>();
+builder.Services.AddScoped<EmprestimoDomainService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddRabbitMQService();
 NpgsqlConnection.GlobalTypeMapper.MapEnum<StatusLivro>("disponibilidade_enum");
+builder.Services.AddRabbitMQServices(configuration);
+builder.Services.AddHostedService<BackgroundMessageConsumer>();
 
 var app = builder.Build();
 

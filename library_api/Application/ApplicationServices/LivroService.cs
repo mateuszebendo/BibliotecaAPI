@@ -1,6 +1,9 @@
 using library_api.Application.DTOs;
 using library_api.Application.Entities;
+using library_api.Domain.Enums;
 using library_api.Domain.Repositories;
+using library_api.Infrastructure.Messaging.Consumers;
+using library_api.Infrastructure.Messaging.Producers;
 using library_api.Presentation.Requests;
 using Microsoft.IdentityModel.Tokens;
 
@@ -9,10 +12,20 @@ namespace library_api.Domain.Services;
 public class LivroService
 {
     private readonly ILivroRepository _livroRepository;
+    private readonly LivroProducer _producer;
+    private readonly LivroConsumer _consumer;
 
-    public LivroService(ILivroRepository livroRepository)
+
+    public LivroService(ILivroRepository livroRepository, LivroProducer producer, LivroConsumer consumer)
     {
         _livroRepository = livroRepository;
+        _producer = producer;
+        _consumer = consumer;
+    }
+    
+    public void IniciarConsumo()
+    {
+        _consumer.StartConsuming();
     }
 
     public async Task<LivroDTO> CriaNovoLivro(LivroDTO livroDto)
@@ -20,12 +33,13 @@ public class LivroService
         try
         {
             Livro novoLivro = new Livro(livroDto.nome, livroDto.editora, livroDto.autor,
-                livroDto.genero);
+                livroDto.genero, StatusLivro.Disponivel);
             var livroCriado = await _livroRepository.PostLivroAsync(novoLivro);
             if (livroCriado.Nome.IsNullOrEmpty())
             {
                 throw new ApplicationException("Falha ao adicionar o registro de livro.");
             }  
+            _producer.EnviarMensagem(livroCriado.ToString());
             return new LivroDTO(livroCriado);
         } catch (ArgumentException error)
         {
@@ -78,7 +92,7 @@ public class LivroService
         try
         {
             Livro livroAtualizado = new Livro(livroDto.nome, livroDto.editora, livroDto.autor,
-                livroDto.genero);
+                livroDto.genero, livroDto.disponibilidade);
             var sucessoNaRequisicao = await _livroRepository.PutLivroAsync(livroAtualizado, id);
             if (sucessoNaRequisicao)
             {

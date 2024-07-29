@@ -59,10 +59,6 @@ public class EmprestimoService
         try
         {
             IEnumerable<Emprestimo> listaEmprestimos = await _emprestimoRepository.GetEmprestimosAtivosAsync();
-            if (listaEmprestimos.IsNullOrEmpty())
-            {
-                throw new InvalidOperationException("Nenhum emprestimo encontrado");
-            }
 
             List<EmprestimoDTO> listaEmprestimosDTO = new List<EmprestimoDTO>();
             foreach (var emprestimo in listaEmprestimos)

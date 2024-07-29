@@ -1,6 +1,4 @@
 using library_api.Application.DTOs;
-using library_api.Bus;
-using library_api.Domain;
 using library_api.Domain.Services;
 using library_api.Presentation.Requests;
 using MassTransit;
@@ -16,10 +14,9 @@ public class LivroController : ControllerBase
     private readonly LivroService _livroService;
     private readonly IBus _bus;
 
-    public LivroController(LivroService livroService, IBus bus)
+    public LivroController(LivroService livroService)
     {
         _livroService = livroService;
-        _bus = bus;
     }
 
     [HttpPost]

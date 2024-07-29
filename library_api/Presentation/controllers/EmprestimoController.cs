@@ -1,6 +1,4 @@
 using library_api.Application.DTOs;
-using library_api.Bus;
-using library_api.Domain;
 using library_api.Domain.Services;
 using library_api.Presentation.Requests;
 using MassTransit;
@@ -14,12 +12,12 @@ namespace library_api.presentation.controllers;
 public class EmprestimoController : ControllerBase
 {
     private readonly EmprestimoService _emprestimoService;
-    private readonly IBus _bus;
+    private readonly EmprestimoDomainService _emprestimoDomainService;
 
-    public EmprestimoController(EmprestimoService emprestimoService, IBus bus)
+    public EmprestimoController(EmprestimoService emprestimoService, EmprestimoDomainService emprestimoDomainService)
     {
         _emprestimoService = emprestimoService;
-        _bus = bus;
+        _emprestimoDomainService = emprestimoDomainService;
     }
 
     [HttpPost]
@@ -37,7 +35,7 @@ public class EmprestimoController : ControllerBase
         EmprestimoDTO emprestimoDto = new EmprestimoDTO(request);
 
 
-        var emprestimoCriado = await _emprestimoService.CriaNovoEmprestimo(emprestimoDto);
+        var emprestimoCriado = await _emprestimoDomainService.CriaNovoEmprestimo(emprestimoDto);
 
         if (emprestimoCriado == null)
         {

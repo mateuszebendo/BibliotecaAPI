@@ -8,22 +8,22 @@ using System.ComponentModel.DataAnnotations;
 public sealed class Livro
 {
     public Livro(){}
-    public Livro(string nome, string editora, string autor, GeneroLivro genero)
+    public Livro(string nome, string editora, string autor, GeneroLivro genero, StatusLivro disponibilidade)
     {
         Nome = nome;
         Editora = editora;
         Autor = autor;
         Genero = genero;
-        Disponibilidade = StatusLivro.Disponivel;
+        Disponibilidade = disponibilidade;
     }
-    public Livro(int livroId, string nome, string editora, string autor, GeneroLivro genero)
+    public Livro(int livroId, string nome, string editora, string autor, GeneroLivro genero, StatusLivro disponibilidade)
     {
         LivroId = livroId;
         Nome = nome;
         Editora = editora;
         Autor = autor;
         Genero = genero;
-        Disponibilidade = StatusLivro.Disponivel;
+        Disponibilidade = disponibilidade;
     }
 
     [Key]
