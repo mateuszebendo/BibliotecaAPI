@@ -1,8 +1,8 @@
 using Dapper;
-using library_api.Application.DTOs;
+using library_api.Application.Entities;
 using library_api.Domain.Repositories;
 using library_api.Infrastructure.DataBase;
-using library_api.Presentation.Models;
+using Microsoft.OpenApi.Extensions;
 using Npgsql;
 
 namespace library_api.Infrastructure.Data;
@@ -16,61 +16,103 @@ public class LivroRepository : ILivroRepository
         _connectionString = DatabaseConfig.ConnectionString;
     }
     
-    public async Task<bool> postLivroAsync(LivroRequest request)
+    public async Task<Livro> PostLivroAsync(Livro livro)
     {
-        string sqlQuery = @"insert into livro(nome, editora, genero, autor) values (@nome, @editora, @genero, @autor)";
-
-        using (var connection = new NpgsqlConnection(_connectionString))
+        try
         {
-            return await connection.ExecuteAsync(sqlQuery, request) > 0;
+            string sqlQuery =
+                @"INSERT INTO livro(nome, editora, genero, autor, disponibilidade) 
+                    VALUES (@nome, @editora, @genero, @autor, @disponibilidade)
+                    RETURNING livroID";
+
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                var livroId = await connection.ExecuteScalarAsync<int>(sqlQuery, livro);              
+                return await GetLivroByIdAsync(livroId);
+            }
+        }
+        catch (PostgresException error)
+        {
+            throw new ApplicationException("Um erro aconteceu durante a query SQL: " + error);
         }
     }
     
-    public async Task<IEnumerable<LivroDTO>> getLivroAsync()
+    public async Task<IEnumerable<Livro>> GetLivroAsync()
     {
-        string sqlQuery = @"select * from livro";
-
-        using (var connection = new NpgsqlConnection(_connectionString))
+        try
         {
-            return await connection.QueryAsync<LivroDTO>(sqlQuery);
+            string sqlQuery = @"SELECT * FROM livro WHERE disponibilidade != 'Arquivado'";
+
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                return await connection.QueryAsync<Livro>(sqlQuery);
+            }
+        } 
+        catch (PostgresException error)
+        {
+            throw new ApplicationException("Um erro aconteceu durante a query SQL: " + error);
         }
     }
     
-    public async Task<LivroDTO> getLivroByIdAsync(int id)
+    public async Task<Livro> GetLivroByIdAsync(int id)
     {
-        string sqlQuery = @"select * from livro where livro_id = @Id";
-
-        using (var connection = new NpgsqlConnection(_connectionString))
+        try
         {
-            return await connection.QueryFirstOrDefaultAsync<LivroDTO>(sqlQuery, new {Id = id});
+            string sqlQuery = @"SELECT * FROM livro WHERE livroId = @Id";
+
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                return await connection.QueryFirstOrDefaultAsync<Livro>(sqlQuery, new {Id = id});
+            }
+        } 
+        catch (PostgresException error)
+        {
+            throw new ApplicationException("Um erro aconteceu durante a query SQL: " + error);
         }
     }
 
-    public async Task<bool> putLivroAsync(LivroRequest request, int id)
+    public async Task<bool> PutLivroAsync(Livro livro, int id)
     {
-        string sqlQuery = @"update livro
-                            set nome=@nome, editora=@editora, genero=@genero, autor=@autor
-                            where livro_id=@Id";
-        var parametros = new DynamicParameters();
-        parametros.Add("nome", request.nome);
-        parametros.Add("editora", request.editora);
-        parametros.Add("genero", request.genero);
-        parametros.Add("autor", request.autor);
-        parametros.Add("Id", id);
-        
-        using(var connection = new NpgsqlConnection(_connectionString))
+        try
         {
-            return await connection.ExecuteAsync(sqlQuery, parametros) > 0;
-        }
+            string sqlQuery = @"UPDATE livro
+                            SET nome=@nome, editora=@editora, genero=@genero, autor=@autor, disponibilidade=@disponibilidade
+                            WHERE livroId=@Id";
+            
+            var parametros = new DynamicParameters();
+            parametros.Add("nome", livro.Nome);
+            parametros.Add("editora", livro.Editora);
+            parametros.Add("genero", livro.Genero.GetDisplayName());
+            parametros.Add("autor", livro.Autor);
+            parametros.Add("disponibilidade", livro.Disponibilidade.GetDisplayName());
+            parametros.Add("Id", id);
+
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                return await connection.ExecuteAsync(sqlQuery, parametros) > 0;
+            }
+            
+        } catch (PostgresException error)
+            {
+                throw new ApplicationException("Um erro aconteceu durante a query SQL: " + error);
+            }
     }
 
-    public async Task<bool> deletaLivroByIdAsync(int id)
+    public async Task<bool> DeleteLogicoLivroByIdAsync(int id)
     {
-        string sqlQuery = @"delete from livro where livro_id = @Id";
-
-        using (var connection = new NpgsqlConnection(_connectionString))
+        try
         {
-            return await connection.ExecuteAsync(sqlQuery, new {Id = id}) > 0;
+            string sqlQuery = @"UPDATE livro 
+                            SET disponibilidade = 'Arquivado'
+                            WHERE livroId = @Id";
+
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                return await connection.ExecuteAsync(sqlQuery, new {Id = id}) > 0;
+            }
+        } catch (PostgresException error)
+        {
+            throw new ApplicationException("Um erro aconteceu durante a query SQL: " + error);
         }
     }
 }

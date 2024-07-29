@@ -20,24 +20,33 @@
     <None Remove="Bus\RelatarioSolicitadoEventConsumer.cs\**" />
     <None Remove="Bus\**" />
     <None Remove="Relatorios\**" />
+    <None Remove="Presentation\Models\**" />
   </ItemGroup>
 
   <ItemGroup>
     <Compile Remove="Bus\RelatarioSolicitadoEventConsumer.cs\**" />
     <Compile Remove="Bus\**" />
     <Compile Remove="Relatorios\**" />
+    <Compile Remove="Presentation\Models\LivroRequest.cs" />
+    <Compile Remove="Presentation\Models\**" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Remove="Bus\RelatarioSolicitadoEventConsumer.cs\**" />
     <EmbeddedResource Remove="Bus\**" />
     <EmbeddedResource Remove="Relatorios\**" />
+    <EmbeddedResource Remove="Presentation\Models\**" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Remove="Bus\RelatarioSolicitadoEventConsumer.cs\**" />
     <Content Remove="Bus\**" />
     <Content Remove="Relatorios\**" />
+    <Content Remove="Presentation\Models\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Domain\Services\" />
   </ItemGroup>
 
 </Project>

@@ -1,6 +1,6 @@
 namespace library_api.Presentation.Models;
 
-public class LivroRequest
+public model LivroRequest
 {
     public string nome { get; set; }
     public string editora { get; set; }
