@@ -15,16 +15,16 @@ public class EmprestimoConsumer
 
     public void StartEmprestimoConsuming()
     {
-        var consumer = new EventingBasicConsumer(_channel);
-        
-        consumer.Received += (sender, eventArgs) =>
-        {
-            byte[] body = eventArgs.Body.ToArray();
-            string mensagem = Encoding.UTF8.GetString(body);
-            ProcessarMensagem(mensagem);
-        };
-
-        _channel.BasicConsume(queue: "usuario-bloqueado", autoAck: true, consumer: consumer);
+        // var consumer = new EventingBasicConsumer(_channel);
+        //
+        // consumer.Received += (sender, eventArgs) =>
+        // {
+        //     byte[] body = eventArgs.Body.ToArray();
+        //     string mensagem = Encoding.UTF8.GetString(body);
+        //     ProcessarMensagem(mensagem);
+        // };
+        //
+        // _channel.BasicConsume(queue: "usuario-bloqueado", autoAck: true, consumer: consumer);
     }
 
     private void ProcessarMensagem(string mensagem)
