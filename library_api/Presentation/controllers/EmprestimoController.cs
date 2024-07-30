@@ -1,4 +1,6 @@
 using library_api.Application.DTOs;
+using library_api.Application.Interfaces;
+using library_api.Domain.DomainInterfaces;
 using library_api.Domain.Services;
 using library_api.Presentation.Requests;
 using MassTransit;
@@ -11,10 +13,10 @@ namespace library_api.presentation.controllers;
 
 public class EmprestimoController : ControllerBase
 {
-    private readonly EmprestimoService _emprestimoService;
-    private readonly EmprestimoDomainService _emprestimoDomainService;
+    private readonly IEmprestimoService _emprestimoService;
+    private readonly IEmprestimoDomainService _emprestimoDomainService;
 
-    public EmprestimoController(EmprestimoService emprestimoService, EmprestimoDomainService emprestimoDomainService)
+    public EmprestimoController(IEmprestimoService emprestimoService, IEmprestimoDomainService emprestimoDomainService)
     {
         _emprestimoService = emprestimoService;
         _emprestimoDomainService = emprestimoDomainService;

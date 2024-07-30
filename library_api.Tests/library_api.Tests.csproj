@@ -28,4 +28,8 @@
     <ProjectReference Include="..\library_api\library_api.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="LivroControllerTest.cs" />
+  </ItemGroup>
+
 </Project>

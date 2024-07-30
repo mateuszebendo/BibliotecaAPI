@@ -1,4 +1,5 @@
 using library_api.Application.DTOs;
+using library_api.Application.Interfaces;
 using library_api.Domain.Services;
 using library_api.Presentation.Requests;
 using MassTransit;
@@ -10,13 +11,12 @@ namespace library_api.presentation.controllers;
 [Route("usuario")]
 public class UsuarioController : ControllerBase
 {
-    private readonly UsuarioService _usuarioService;
-    private readonly IBus _bus;
+    private readonly IUsuarioService _usuarioService;
+    // private readonly IBus _bus;
 
-    public UsuarioController(UsuarioService usuarioService, IBus bus)
+    public UsuarioController(IUsuarioService usuarioService)
     {
         _usuarioService = usuarioService;
-        _bus = bus;
     }
 
     [HttpPost]

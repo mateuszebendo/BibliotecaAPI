@@ -1,5 +1,6 @@
 using library_api.Application.DTOs;
 using library_api.Application.Entities;
+using library_api.Application.Interfaces;
 using library_api.Domain.Enums;
 using library_api.Domain.Repositories;
 using library_api.Infrastructure.Messaging.Consumers;
@@ -9,7 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace library_api.Domain.Services;
 
-public class LivroService
+public class LivroService : ILivroService
 {
     private readonly ILivroRepository _livroRepository;
     private readonly LivroProducer _producer;

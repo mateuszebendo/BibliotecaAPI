@@ -21,6 +21,7 @@
     <None Remove="Bus\**" />
     <None Remove="Relatorios\**" />
     <None Remove="Presentation\Models\**" />
+    <None Remove="Domain\Events\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -29,6 +30,10 @@
     <Compile Remove="Relatorios\**" />
     <Compile Remove="Presentation\Models\LivroRequest.cs" />
     <Compile Remove="Presentation\Models\**" />
+    <Compile Remove="Domain\Events\**" />
+    <Compile Remove="Domain\Services\EmprestimoDomainService.cs" />
+    <Compile Remove="Domain\Services\ILivroService.cs" />
+    <Compile Remove="Domain\Services\IUsuarioService.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -36,6 +41,7 @@
     <EmbeddedResource Remove="Bus\**" />
     <EmbeddedResource Remove="Relatorios\**" />
     <EmbeddedResource Remove="Presentation\Models\**" />
+    <EmbeddedResource Remove="Domain\Events\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -43,6 +49,7 @@
     <Content Remove="Bus\**" />
     <Content Remove="Relatorios\**" />
     <Content Remove="Presentation\Models\**" />
+    <Content Remove="Domain\Events\**" />
   </ItemGroup>
 
 </Project>

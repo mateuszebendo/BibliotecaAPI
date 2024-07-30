@@ -1,4 +1,5 @@
 using library_api.Application.DTOs;
+using library_api.Application.Interfaces;
 using library_api.Domain.Services;
 using library_api.Presentation.Requests;
 using MassTransit;
@@ -11,10 +12,10 @@ namespace library_api.presentation.controllers;
 
 public class LivroController : ControllerBase
 {
-    private readonly LivroService _livroService;
-    private readonly IBus _bus;
+    private readonly ILivroService _livroService;
+    // private readonly IBus _bus;
 
-    public LivroController(LivroService livroService)
+    public LivroController(ILivroService livroService)
     {
         _livroService = livroService;
     }
@@ -59,7 +60,8 @@ public class LivroController : ControllerBase
     [HttpGet("id")]
     public async Task<IActionResult> Get(int id)
     {
-        LivroReturn livro = new LivroReturn(await _livroService.RecuperaLivroPorId(id));
+        LivroDTO livroResgatado = await _livroService.RecuperaLivroPorId(id);
+        LivroReturn livro = new LivroReturn(livroResgatado);
     
         return Ok(livro);
     }

@@ -1,3 +1,4 @@
+using library_api.Application.Interfaces;
 using library_api.Domain.Services;
 
 namespace library_api.Infrastructure.Messaging.Consumers;
@@ -17,11 +18,11 @@ public class BackgroundMessageConsumer  : BackgroundService
         {
             using (var scope = _scopeFactory.CreateScope())
             {
-                var livroService = scope.ServiceProvider.GetRequiredService<LivroService>();
+                var livroService = scope.ServiceProvider.GetRequiredService<ILivroService>();
                 livroService.IniciarConsumo();
             }
 
-            await Task.Delay(TimeSpan.FromMinutes(1), stoppingToken); // Ajuste o intervalo conforme necessário
+            await Task.Delay(TimeSpan.FromMinutes(1), stoppingToken);
         }
     }
 }

@@ -1,11 +1,12 @@
 using library_api.Application.DTOs;
 using library_api.Application.Entities;
+using library_api.Application.Interfaces;
 using library_api.Domain.Repositories;
 using Microsoft.IdentityModel.Tokens;
 
 namespace library_api.Domain.Services;
 
-public class UsuarioService
+public class UsuarioService : IUsuarioService
 {
     private readonly IUsuarioRepository _usuarioRepository;
 
