@@ -13,20 +13,20 @@ namespace library_api.Domain.Services;
 public class LivroService : ILivroService
 {
     private readonly ILivroRepository _livroRepository;
-    private readonly LivroProducer _producer;
-    private readonly LivroConsumer _consumer;
+    private readonly LivroProducer _livroProducer;
+    private readonly LivroConsumer _livroConsumer;
 
 
-    public LivroService(ILivroRepository livroRepository, LivroProducer producer, LivroConsumer consumer)
+    public LivroService(ILivroRepository livroRepository, LivroProducer livroProducer, LivroConsumer livroConsumer)
     {
         _livroRepository = livroRepository;
-        _producer = producer;
-        _consumer = consumer;
+        _livroProducer = livroProducer;
+        _livroConsumer = livroConsumer;
     }
     
     public void IniciarConsumo()
     {
-        _consumer.StartConsuming();
+        _livroConsumer.StartLivroConsuming();
     }
 
     public async Task<LivroDTO> CriaNovoLivro(LivroDTO livroDto)
@@ -40,7 +40,6 @@ public class LivroService : ILivroService
             {
                 throw new ApplicationException("Falha ao adicionar o registro de livro.");
             }  
-            _producer.EnviarMensagem(livroCriado.ToString());
             return new LivroDTO(livroCriado);
         } catch (ArgumentException error)
         {
@@ -49,6 +48,29 @@ public class LivroService : ILivroService
     }
 
     public async Task<List<LivroDTO>> RecuperaTodosLivros()
+    {
+        try
+        {
+            IEnumerable<Livro> listaLivros = await _livroRepository.GetLivroAsync();
+            if (listaLivros.IsNullOrEmpty())
+            {
+                throw new InvalidOperationException("Nenhum livro encontrado");
+            }
+
+            List<LivroDTO> listaLivrosDTO = new List<LivroDTO>();
+            foreach (var livro in listaLivros)
+            {
+                listaLivrosDTO.Add(new LivroDTO(livro));
+            }
+
+            return listaLivrosDTO;
+        } catch (ArgumentException error)
+        {
+            throw new ApplicationException("Ocorreu um erro inesperado.", error);
+        }
+    }
+    
+    public async Task<List<LivroDTO>> RecuperaTodosLivrosAtivos()
     {
         try
         {

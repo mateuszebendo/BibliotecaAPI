@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using library_api.Application.DTOs;
 using library_api.Domain.Enums;
 
 namespace library_api.Application.Entities;
@@ -25,6 +26,17 @@ public sealed class Livro
         Genero = genero;
         Disponibilidade = disponibilidade;
     }
+    
+    public Livro(LivroDTO livroDto)
+    {
+        LivroId = livroDto.livroId;
+        Nome = livroDto.nome;
+        Editora = livroDto.editora;
+        Autor = livroDto.autor;
+        Genero = livroDto.genero;
+        Disponibilidade = livroDto.disponibilidade;
+    }
+
 
     [Key]
     public int LivroId { get; set; }

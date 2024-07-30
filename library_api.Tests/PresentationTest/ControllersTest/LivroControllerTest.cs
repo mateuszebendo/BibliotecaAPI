@@ -1,6 +1,7 @@
 using library_api.Application.DTOs;
 using library_api.Application.Entities;
 using library_api.Application.Interfaces;
+using library_api.Domain.DomainInterfaces;
 using library_api.Domain.Enums;
 using library_api.presentation.controllers;
 using library_api.Presentation.Requests;
@@ -12,12 +13,43 @@ namespace library_api.Tests.PresentationTest.ControllersTest;
 public class LivroControllerTest
 {
     private readonly Mock<ILivroService> _livroServiceMock;
+    private readonly Mock<ILivroDomainService> _livroDomainServiceMock;
     private readonly LivroController _controller;
 
     public LivroControllerTest()
     {
         _livroServiceMock = new Mock<ILivroService>();
-        _controller = new LivroController(_livroServiceMock.Object);
+        _livroDomainServiceMock = new Mock<ILivroDomainService>();
+        _controller = new LivroController(_livroServiceMock.Object, _livroDomainServiceMock.Object);
+    }
+
+    [Fact]
+    public async Task CriaNovoLivro_RetornaOkELivroResult_QuandoConsegue()
+    {
+        //Arrange
+        LivroDTO novoLivroDTO = new LivroDTO()
+        {
+            nome = "Livro Teste 1",
+            editora = "Editora Exemplo 1",
+            autor = "Autor Exemplo 1",
+            genero = GeneroLivro.Ficcao,
+            disponibilidade = StatusLivro.Disponivel  
+        };
+        _livroDomainServiceMock.Setup(service => service.CriaNovoLivro(novoLivroDTO))
+            .ReturnsAsync(novoLivroDTO);
+        
+        //Act
+        var resultado = await _controller.Post(new LivroRequest(novoLivroDTO));
+        
+        //Assert
+        var resultadoOK = Assert.IsType<OkObjectResult>(resultado);
+        LivroReturn livrosRetornado = Assert.IsType<LivroReturn>(resultadoOK.Value);
+        
+        Assert.Equal(livrosRetornado.Nome, novoLivroDTO.nome);
+        Assert.Equal(livrosRetornado.Editora, novoLivroDTO.editora);
+        Assert.Equal(livrosRetornado.Autor, novoLivroDTO.autor);
+        Assert.Equal(livrosRetornado.Genero, novoLivroDTO.genero.ToString());
+        Assert.Equal(livrosRetornado.Disponibilidade, novoLivroDTO.disponibilidade.ToString());
     }
 
     [Fact]

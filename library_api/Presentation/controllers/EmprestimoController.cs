@@ -22,7 +22,7 @@ public class EmprestimoController : ControllerBase
         _emprestimoDomainService = emprestimoDomainService;
     }
 
-    [HttpPost]
+    [HttpPost("cria-emprestimo")]
     public async Task<IActionResult> Post([FromBody] EmprestimoRequest request)
     {
         // var eventRequest = new EmprestimoCadastroEvent(request.nome);
@@ -47,7 +47,7 @@ public class EmprestimoController : ControllerBase
         return CreatedAtAction(nameof(Post), new { id = emprestimoCriado.EmprestimoId }, new EmprestimoReturn(emprestimoCriado));
     }
 
-    [HttpGet]   
+    [HttpGet("recupera-emprestimos")]   
     public async Task<IActionResult> Get()
     {
         List<EmprestimoReturn> listaEmprestimoRequest = new List<EmprestimoReturn>();
@@ -60,7 +60,7 @@ public class EmprestimoController : ControllerBase
     }
     
     [HttpGet]  
-    [Route("ativos")]
+    [Route("recupera-emprestimos-ativos")]
     public async Task<IActionResult> GetAllEmprestimoAtivos()
     {
         List<EmprestimoReturn> listaEmprestimoRequest = new List<EmprestimoReturn>();
@@ -72,7 +72,7 @@ public class EmprestimoController : ControllerBase
         return Ok(listaEmprestimoRequest);
     }
     
-    [HttpGet("id")]
+    [HttpGet("recupera-emprestimo/{id}")]
     public async Task<IActionResult> Get(int id)
     {
         EmprestimoReturn emprestimo = new EmprestimoReturn(await _emprestimoService.RecuperaEmprestimoPorId(id));
@@ -80,7 +80,7 @@ public class EmprestimoController : ControllerBase
         return Ok(emprestimo);
     }
     
-    [HttpPut("id")]
+    [HttpPut("atualiza-emprestimo")]
     public async Task<IActionResult> Put(int id, [FromBody] EmprestimoRequest request)
     {
         EmprestimoDTO emprestimoAtualizado = await _emprestimoService.AtualizaEmprestimo(new EmprestimoDTO(request), id);
@@ -88,7 +88,15 @@ public class EmprestimoController : ControllerBase
         return Ok(new EmprestimoReturn(emprestimoAtualizado));
     }
     
-    [HttpDelete("id")]
+    [HttpPut("conclui-emprestimo/{id}")]
+    public async Task<IActionResult> ConcluiEmprestimo(int id)
+    {
+        var resultado = await _emprestimoDomainService.ConcluiEmprestimo(id);
+        
+        return resultado ? Ok("Emprestimo concluido com sucesso") : BadRequest("Não foi possível concluir o emprestimo!");
+    }
+    
+    [HttpDelete("desabilita-emprestimo")]
     public async Task<IActionResult> Delete(int id)
     {
         EmprestimoReturn emprestimoDeletado = new EmprestimoReturn(await _emprestimoService.DesabilitaEmprestimoPorId(id));

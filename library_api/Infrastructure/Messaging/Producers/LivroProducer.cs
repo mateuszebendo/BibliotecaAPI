@@ -12,9 +12,15 @@ public class LivroProducer
         _channel = channel;
     }
 
-    public void EnviarMensagem(string message)
+    public void EnviaAvisoLivroDisponivel(string message)
     {
         var body = Encoding.UTF8.GetBytes(message);
-        _channel.BasicPublish(exchange: "livros_exchange", routingKey: "novo_livro", basicProperties: null, body: body);
+        _channel.BasicPublish(exchange: "livro-alertas", routingKey: "novo-livro-disponivel", basicProperties: null, body: body);
+    }
+    
+    public void EnviaAvisoLivroLancado(string message)
+    {
+        var body = Encoding.UTF8.GetBytes(message);
+        _channel.BasicPublish(exchange: "livro-alertas", routingKey: "novo-livro-lancado", basicProperties: null, body: body);
     }
 }

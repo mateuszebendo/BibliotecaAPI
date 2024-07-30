@@ -1,8 +1,6 @@
 using library_api.Application.DTOs;
 using library_api.Application.Interfaces;
-using library_api.Domain.Services;
 using library_api.Presentation.Requests;
-using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 
 namespace library_api.presentation.controllers;
@@ -12,19 +10,15 @@ namespace library_api.presentation.controllers;
 public class UsuarioController : ControllerBase
 {
     private readonly IUsuarioService _usuarioService;
-    // private readonly IBus _bus;
 
     public UsuarioController(IUsuarioService usuarioService)
     {
         _usuarioService = usuarioService;
     }
 
-    [HttpPost]
+    [HttpPost("cria-usuario")]
     public async Task<IActionResult> Post([FromBody] UsuarioRequest request)
     {
-        // var eventRequest = new UsuarioCadastroEvent(request.nome);
-
-        // await _bus.Publish(eventRequest);
         
         if (request == null)
         {
@@ -44,7 +38,7 @@ public class UsuarioController : ControllerBase
         return CreatedAtAction(nameof(Post), new { id = usuarioCriado.UsuarioId }, new UsuarioReturn(usuarioCriado));
     }
 
-    [HttpGet]   
+    [HttpGet("recupera-usuarios")]   
     public async Task<IActionResult> Get()
     {
         List<UsuarioReturn> listaUsuarioRequest = new List<UsuarioReturn>();
@@ -56,7 +50,7 @@ public class UsuarioController : ControllerBase
         return Ok(listaUsuarioRequest);
     }
     
-    [HttpGet("id")]
+    [HttpGet("recupera-usuario/{id}")]
     public async Task<IActionResult> Get(int id)
     {
         UsuarioReturn usuario = new UsuarioReturn(await _usuarioService.RecuperaUsuarioPorId(id));
@@ -64,7 +58,7 @@ public class UsuarioController : ControllerBase
         return Ok(usuario);
     }
     
-    [HttpPut("id")]
+    [HttpPut("atualiza-usuario/{id}")]
     public async Task<IActionResult> Put(int id, [FromBody] UsuarioRequest request)
     {
         UsuarioDTO usuarioAtualizado = await _usuarioService.AtualizaUsuario(new UsuarioDTO(request), id);
@@ -72,7 +66,7 @@ public class UsuarioController : ControllerBase
         return Ok(new UsuarioReturn(usuarioAtualizado));
     }
     
-    [HttpDelete("id")]
+    [HttpDelete("arquiva-usuario/{id}")]
     public async Task<IActionResult> Delete(int id)
     {
         UsuarioReturn usuarioDeletado = new UsuarioReturn(await _usuarioService.DesabilitaUsuarioPorId(id));

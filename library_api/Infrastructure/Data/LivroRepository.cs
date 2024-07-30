@@ -41,6 +41,23 @@ public class LivroRepository : ILivroRepository
     {
         try
         {
+            string sqlQuery = @"SELECT * FROM livro";
+
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                return await connection.QueryAsync<Livro>(sqlQuery);
+            }
+        } 
+        catch (PostgresException error)
+        {
+            throw new ApplicationException("Um erro aconteceu durante a query SQL: " + error);
+        }
+    }
+    
+    public async Task<IEnumerable<Livro>> GetLivroAtivosAsync()
+    {
+        try
+        {
             string sqlQuery = @"SELECT * FROM livro WHERE disponibilidade != 'Arquivado'";
 
             using (var connection = new NpgsqlConnection(_connectionString))

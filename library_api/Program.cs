@@ -26,9 +26,14 @@ builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 builder.Services.AddScoped<IEmprestimoService, EmprestimoService>();
 
 builder.Services.AddScoped<IEmprestimoDomainService, EmprestimoDomainService>();
+builder.Services.AddScoped<ILivroDomainService, LivroDomainService>();
 
 builder.Services.AddSingleton<LivroProducer>();
 builder.Services.AddSingleton<LivroConsumer>();
+builder.Services.AddSingleton<EmprestimoProducer>();
+builder.Services.AddSingleton<EmprestimoConsumer>();
+builder.Services.AddSingleton<UsuarioProducer>();
+builder.Services.AddSingleton<UsuarioConsumer>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

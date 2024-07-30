@@ -29,9 +29,18 @@ internal static class RabbitMQConfig
 
     public static void SetupQueuesAndExchanges(IModel channel)
     {
-        channel.ExchangeDeclare(exchange: "livros_exchange", type: ExchangeType.Direct);
-        channel.QueueDeclare(queue: "novos_livros_queue", durable: true, exclusive: false, autoDelete: false,
+        channel.ExchangeDeclare(exchange: "usuario-alertas", type: ExchangeType.Direct);
+        channel.ExchangeDeclare(exchange: "livro-alertas", type: ExchangeType.Direct);
+        
+        channel.QueueDeclare(queue: "usuarios-bloqueados", durable: true, exclusive: false, autoDelete: false,
             arguments: null);
-        channel.QueueBind(queue: "novos_livros_queue", exchange: "livros_exchange", routingKey: "novo_livro");
+        channel.QueueDeclare(queue: "livro-disponivel", durable: true, exclusive: false, autoDelete: false,
+            arguments: null);
+        channel.QueueDeclare(queue: "livro-lancado", durable: true, exclusive: false, autoDelete: false,
+            arguments: null);
+        
+        channel.QueueBind(queue: "usuarios-bloqueados", exchange: "usuario-alertas", routingKey:"bloqueia-usuario");
+        channel.QueueBind(queue: "livro-disponivel", exchange: "livro-alertas", routingKey:"novo-livro-disponivel");
+        channel.QueueBind(queue: "livro-lancado", exchange: "livro-alertas", routingKey:"novo-livro-lancado");
     }
 }
