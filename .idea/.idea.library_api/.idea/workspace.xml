@@ -9,49 +9,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bc5a2597-b7a3-496f-abca-2dcd2a50111b" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/library_api/Application/Interfaces/IEmprestimoService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/library_api/Application/Interfaces/ILivroService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/library_api/Application/Interfaces/IUsuarioService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/library_api/Domain/DomainInterfaces/IEmprestimoDomainService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/library_api/Domain/DomainServices/EmprestimoDomainService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.library_api/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.library_api/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/library_api.Tests/PresentationTest/ControllersTest/LivroControllerTest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/library_api.Tests/PresentationTest/ControllersTest/LivroControllerTest.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library_api.Tests/UnitTest1.cs" beforeDir="false" afterPath="$PROJECT_DIR$/library_api.Tests/LivroControllerTest.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library_api.Tests/bin/Debug/net8.0/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/library_api.Tests/bin/Debug/net8.0/appsettings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library_api.Tests/bin/Debug/net8.0/library_api.Tests.dll" beforeDir="false" afterPath="$PROJECT_DIR$/library_api.Tests/bin/Debug/net8.0/library_api.Tests.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library_api.Tests/bin/Debug/net8.0/library_api.Tests.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/library_api.Tests/bin/Debug/net8.0/library_api.Tests.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library_api.Tests/bin/Debug/net8.0/library_api.dll" beforeDir="false" afterPath="$PROJECT_DIR$/library_api.Tests/bin/Debug/net8.0/library_api.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library_api.Tests/bin/Debug/net8.0/library_api.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/library_api.Tests/bin/Debug/net8.0/library_api.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library_api.Tests/library_api.Tests.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/library_api.Tests/library_api.Tests.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library_api.Tests/obj/Debug/net8.0/library_api.Tests.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/library_api.Tests/obj/Debug/net8.0/library_api.Tests.AssemblyInfo.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library_api.Tests/obj/Debug/net8.0/library_api.Tests.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/library_api.Tests/obj/Debug/net8.0/library_api.Tests.AssemblyInfoInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library_api.Tests/obj/Debug/net8.0/library_api.Tests.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/library_api.Tests/obj/Debug/net8.0/library_api.Tests.csproj.AssemblyReference.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library_api.Tests/obj/Debug/net8.0/library_api.Tests.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/library_api.Tests/obj/Debug/net8.0/library_api.Tests.csproj.CoreCompileInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library_api.Tests/obj/Debug/net8.0/library_api.Tests.dll" beforeDir="false" afterPath="$PROJECT_DIR$/library_api.Tests/obj/Debug/net8.0/library_api.Tests.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library_api.Tests/obj/Debug/net8.0/library_api.Tests.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/library_api.Tests/obj/Debug/net8.0/library_api.Tests.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library_api.Tests/obj/Debug/net8.0/library_api.Tests.sourcelink.json" beforeDir="false" afterPath="$PROJECT_DIR$/library_api.Tests/obj/Debug/net8.0/library_api.Tests.sourcelink.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library_api.Tests/obj/Debug/net8.0/ref/library_api.Tests.dll" beforeDir="false" afterPath="$PROJECT_DIR$/library_api.Tests/obj/Debug/net8.0/ref/library_api.Tests.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library_api.Tests/obj/Debug/net8.0/refint/library_api.Tests.dll" beforeDir="false" afterPath="$PROJECT_DIR$/library_api.Tests/obj/Debug/net8.0/refint/library_api.Tests.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library_api/Application/ApplicationServices/EmprestimoService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/library_api/Application/ApplicationServices/EmprestimoService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library_api/Application/ApplicationServices/LivroService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/library_api/Application/ApplicationServices/LivroService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library_api/Application/ApplicationServices/UsuarioService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/library_api/Application/ApplicationServices/UsuarioService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library_api/Domain/Events/LivroCadastroEvent.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/library_api/Infrastructure/Messaging/Consumers/BackgroundMessageConsumer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/library_api/Infrastructure/Messaging/Consumers/BackgroundMessageConsumer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library_api/Presentation/controllers/EmprestimoController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/library_api/Presentation/controllers/EmprestimoController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library_api/Presentation/controllers/LivroController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/library_api/Presentation/controllers/LivroController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library_api/Presentation/controllers/UsuarioController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/library_api/Presentation/controllers/UsuarioController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library_api/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/library_api/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library_api/bin/Debug/net8.0/library_api.dll" beforeDir="false" afterPath="$PROJECT_DIR$/library_api/bin/Debug/net8.0/library_api.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library_api/bin/Debug/net8.0/library_api.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/library_api/bin/Debug/net8.0/library_api.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library_api/library_api.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/library_api/library_api.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library_api/obj/Debug/net8.0/library_api.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/library_api/obj/Debug/net8.0/library_api.AssemblyInfo.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library_api/obj/Debug/net8.0/library_api.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/library_api/obj/Debug/net8.0/library_api.AssemblyInfoInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library_api/obj/Debug/net8.0/library_api.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/library_api/obj/Debug/net8.0/library_api.csproj.CoreCompileInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library_api/obj/Debug/net8.0/library_api.dll" beforeDir="false" afterPath="$PROJECT_DIR$/library_api/obj/Debug/net8.0/library_api.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library_api/obj/Debug/net8.0/library_api.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/library_api/obj/Debug/net8.0/library_api.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library_api/obj/Debug/net8.0/library_api.sourcelink.json" beforeDir="false" afterPath="$PROJECT_DIR$/library_api/obj/Debug/net8.0/library_api.sourcelink.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library_api/obj/Debug/net8.0/ref/library_api.dll" beforeDir="false" afterPath="$PROJECT_DIR$/library_api/obj/Debug/net8.0/ref/library_api.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library_api/obj/Debug/net8.0/refint/library_api.dll" beforeDir="false" afterPath="$PROJECT_DIR$/library_api/obj/Debug/net8.0/refint/library_api.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/library_api/Application/DTOs/LivroDTO.cs" beforeDir="false" afterPath="$PROJECT_DIR$/library_api/Application/DTOs/LivroDTO.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -154,7 +114,7 @@
       <workItem from="1722297010372" duration="215000" />
       <workItem from="1722297287060" duration="55000" />
       <workItem from="1722297372177" duration="19000" />
-      <workItem from="1722297641462" duration="3556000" />
+      <workItem from="1722297641462" duration="4263000" />
     </task>
     <servers />
   </component>

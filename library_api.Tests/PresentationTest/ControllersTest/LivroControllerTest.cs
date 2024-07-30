@@ -2,7 +2,6 @@ using library_api.Application.DTOs;
 using library_api.Application.Entities;
 using library_api.Application.Interfaces;
 using library_api.Domain.Enums;
-using library_api.Domain.Services;
 using library_api.presentation.controllers;
 using library_api.Presentation.Requests;
 using Microsoft.AspNetCore.Mvc;
@@ -21,6 +20,77 @@ public class LivroControllerTest
         _controller = new LivroController(_livroServiceMock.Object);
     }
 
+    [Fact]
+    public async Task ResgatoTodosLivros_RetornaResultadoOk_QuandoConseguir()
+    {
+        
+        //Arrange
+        List<LivroDTO> livros = new List<LivroDTO>
+        {
+            new LivroDTO
+            {
+                livroId = 1,
+                nome = "Livro Teste 1",
+                editora = "Editora Exemplo 1",
+                autor = "Autor Exemplo 1",
+                genero = GeneroLivro.Ficcao,
+                disponibilidade = StatusLivro.Disponivel
+            },
+            new LivroDTO
+            {
+                livroId = 2,
+                nome = "Livro Teste 2",
+                editora = "Editora Exemplo 2",
+                autor = "Autor Exemplo 2",
+                genero = GeneroLivro.Romance,
+                disponibilidade = StatusLivro.Emprestado
+            },
+            new LivroDTO
+            {
+                livroId = 3,
+                nome = "Livro Teste 3",
+                editora = "Editora Exemplo 3",
+                autor = "Autor Exemplo 3",
+                genero = GeneroLivro.Fantasia,
+                disponibilidade = StatusLivro.Emprestado
+            },
+            new LivroDTO
+            {
+                livroId = 4,
+                nome = "Livro Teste 4",
+                editora = "Editora Exemplo 4",
+                autor = "Autor Exemplo 4",
+                genero = GeneroLivro.LiteraturaClassica,
+                disponibilidade = StatusLivro.Disponivel
+            },
+            new LivroDTO
+            {
+                livroId = 5,
+                nome = "Livro Teste 5",
+                editora = "Editora Exemplo 5",
+                autor = "Autor Exemplo 5",
+                genero = GeneroLivro.Ficcao,
+                disponibilidade = StatusLivro.Emprestado
+            }
+        };
+        _livroServiceMock.Setup(service => service.RecuperaTodosLivros())
+            .ReturnsAsync(livros);
+        
+        //Act
+        var resultado = await _controller.Get();
+        
+        //Assert 
+        var resultadoOK = Assert.IsType<OkObjectResult>(resultado);
+        List<LivroReturn> livrosRetornados = Assert.IsType<List<LivroReturn>>(resultadoOK.Value);
+
+        int index = 0;
+        foreach (var livroRetornado in livrosRetornados)
+        {
+            Assert.Equal(livros[index].livroId, livroRetornado.LivroId);
+            index++;
+        }
+    }
+    
     [Fact]
     public async Task GetLivro_RetornaResultadoOk_QuandoLivroExiste()
     {

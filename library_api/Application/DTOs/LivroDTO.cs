@@ -7,6 +7,8 @@ namespace library_api.Application.DTOs;
 
 public class LivroDTO
 {
+
+    public LivroDTO(){}
     public LivroDTO(Livro livro)
     {
         livroId = livro.LivroId;
