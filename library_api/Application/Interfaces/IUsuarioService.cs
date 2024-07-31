@@ -4,6 +4,7 @@ namespace library_api.Application.Interfaces;
 
 public interface IUsuarioService
 {
+    void IniciarConsumo();
     Task<UsuarioDTO> CriaNovoUsuario(UsuarioDTO usuarioDto);
     Task<List<UsuarioDTO>> RecuperaTodosUsuarios();
     Task<UsuarioDTO> RecuperaUsuarioPorId(int id);

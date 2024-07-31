@@ -43,8 +43,7 @@ public class LivroController : ControllerBase
 
         LivroReturn livroRetornado = new LivroReturn(livroCriado);
 
-        var ok = new OkObjectResult(livroRetornado);
-        return ok;
+        return Ok(livroRetornado);
     }
 
     [HttpGet("recupera-livros")]   

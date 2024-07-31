@@ -1,7 +1,10 @@
 using library_api.Application.DTOs;
 using library_api.Application.Interfaces;
 using library_api.Domain.DomainInterfaces;
+using library_api.Domain.Enums;
 using library_api.presentation.controllers;
+using library_api.Presentation.Requests;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
 
 namespace library_api.Tests.PresentationTest.ControllersTest;
@@ -23,22 +26,53 @@ public class EmprestimoControllerTest
     public async Task RealizaEmprestimo_RetornaOK_QuandoRealizado()
     {
         //Arrange
-        // EmprestimoDTO emprestimoDto = new EmprestimoDTO()
-        // {
-        //     
-        // }
+        EmprestimoDTO emprestimoDto = new EmprestimoDTO()
+        {
+            EmprestimoId = 3,
+            DataEmprestimo = DateTime.Today,
+            DataDevolucao = DateTime.Today,
+            Status = StatusEmprestimo.Ativo,
+            UsuarioId = 1,
+            LivroId = 1
+        };
+        _livroEmprestimoServiceMock
+            .Setup(service => service.CriaNovoEmprestimo(It.IsAny<EmprestimoDTO>()))
+            .ReturnsAsync(emprestimoDto);
         
         //Act
-        // var resultado = await _controller.Post(new LivroRequest(novoLivroDTO));
+        IActionResult resultado = await _controller.Post(new EmprestimoRequest(emprestimoDto));
         
         //Assert
-        // var resultadoOK = Assert.IsType<OkObjectResult>(resultado);
-        // LivroReturn livrosRetornado = Assert.IsType<LivroReturn>(resultadoOK.Value);
-        //
-        // Assert.Equal(livrosRetornado.Nome, novoLivroDTO.nome);
-        // Assert.Equal(livrosRetornado.Editora, novoLivroDTO.editora);
-        // Assert.Equal(livrosRetornado.Autor, novoLivroDTO.autor);
-        // Assert.Equal(livrosRetornado.Genero, novoLivroDTO.genero.ToString());
-        // Assert.Equal(livrosRetornado.Disponibilidade, novoLivroDTO.disponibilidade.ToString());
+        var resultadoOK = Assert.IsType<OkObjectResult>(resultado);
+        EmprestimoReturn emprestimoRetornado = Assert.IsType<EmprestimoReturn>(resultadoOK.Value);
+        
+        Assert.Equal(emprestimoRetornado.EmprestimoId, emprestimoDto.EmprestimoId);
+    }
+    
+    [Fact]
+    public async Task DevolveLivro_RetornaOK_QuandoDevolve()
+    {
+        //Arrange
+        EmprestimoDTO emprestimoDto = new EmprestimoDTO()
+        {
+            EmprestimoId = 3,
+            DataEmprestimo = DateTime.Today,
+            DataDevolucao = DateTime.Today,
+            Status = StatusEmprestimo.Ativo,
+            UsuarioId = 1,
+            LivroId = 1
+        };
+        _livroEmprestimoServiceMock
+            .Setup(service => service.ConcluiEmprestimo(It.IsAny<int>()))
+            .ReturnsAsync(true);
+        
+        //Act
+        IActionResult resultado = await _controller.ConcluiEmprestimo(3);
+
+        // Assert
+        var resultadoOK = Assert.IsType<OkObjectResult>(resultado);
+        string mensagem = Assert.IsType<string>(resultadoOK.Value);
+
+        Assert.Equal("Emprestimo concluido com sucesso", mensagem);
     }
 }

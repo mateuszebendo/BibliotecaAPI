@@ -2,6 +2,8 @@ using library_api.Application.DTOs;
 using library_api.Application.Entities;
 using library_api.Application.Interfaces;
 using library_api.Domain.Repositories;
+using library_api.Infrastructure.Messaging.Consumers;
+using library_api.Infrastructure.Messaging.Producers;
 using Microsoft.IdentityModel.Tokens;
 
 namespace library_api.Domain.Services;
@@ -9,10 +11,25 @@ namespace library_api.Domain.Services;
 public class UsuarioService : IUsuarioService
 {
     private readonly IUsuarioRepository _usuarioRepository;
+    private readonly UsuarioProducer _usuarioProducer;
+    private readonly UsuarioConsumer _usuarioConsumer;
+    private readonly AdminConsumer _adminConsumer;
 
-    public UsuarioService(IUsuarioRepository usuarioRepository)
+    public UsuarioService(IUsuarioRepository usuarioRepository,
+                          UsuarioConsumer usuarioConsumer, 
+                          UsuarioProducer usuarioProducer,
+                          AdminConsumer adminConsumer)
     {
         _usuarioRepository = usuarioRepository;
+        _adminConsumer = adminConsumer;
+        _usuarioConsumer = usuarioConsumer;
+        _usuarioProducer = usuarioProducer;
+    }
+
+    public void IniciarConsumo()
+    {
+        _usuarioConsumer.StartUsuarioConsuming();
+        _adminConsumer.StartAdminConsuming();
     }
     
     public async Task<UsuarioDTO> CriaNovoUsuario(UsuarioDTO usuarioDto)
@@ -24,7 +41,9 @@ public class UsuarioService : IUsuarioService
             if (usuarioCriado.Nome.IsNullOrEmpty())
             {
                 throw new ApplicationException("Falha ao adicionar o registro de Usuario.");
-            }  
+            }
+            usuarioDto.UsuarioId = usuarioCriado.UsuarioId;
+            _usuarioProducer.EnviaAvisoNovoUsuarioCriado(usuarioDto);
             return new UsuarioDTO(usuarioCriado);
         } catch (ArgumentException error)
         {
@@ -80,7 +99,9 @@ public class UsuarioService : IUsuarioService
             var sucessoNaRequisicao = await _usuarioRepository.PutUsuarioAsync(usuarioAtualizado, id);
             if (sucessoNaRequisicao)
             {
-                return new UsuarioDTO(await _usuarioRepository.GetUsuarioByIdAsync(id));
+                var usuario = new UsuarioDTO(await _usuarioRepository.GetUsuarioByIdAsync(id));
+                _usuarioProducer.EnviaUsuarioAlterado(usuario);
+                return usuario;
             } 
             throw new ApplicationException("Falha ao atualizar Usuario.");
         } catch (ArgumentException error)
@@ -97,6 +118,7 @@ public class UsuarioService : IUsuarioService
             if (sucessoNaRequisicao)
             {
                 UsuarioDTO usuarioDesabilitadoDto = new UsuarioDTO(await _usuarioRepository.GetUsuarioByIdAsync(id));
+                _usuarioProducer.EnviaAvisoUsuarioDesabilitado(usuarioDesabilitadoDto);
                 return usuarioDesabilitadoDto;
             } 
             throw new ApplicationException("Falha ao desabilitar Usuario.");

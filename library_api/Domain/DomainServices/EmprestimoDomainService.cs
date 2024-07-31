@@ -20,6 +20,7 @@ public class EmprestimoDomainService : IEmprestimoDomainService
     private readonly UsuarioConsumer _usuarioConsumer;
     private readonly LivroProducer _livroProducer;
     private readonly LivroConsumer _livroConsumer;
+    private readonly AdminConsumer _adminConsumer;
 
     public EmprestimoDomainService(IEmprestimoService emprestimoService, 
                                     IUsuarioService usuarioService, 
@@ -29,7 +30,8 @@ public class EmprestimoDomainService : IEmprestimoDomainService
                                     UsuarioProducer usuarioProducer, 
                                     UsuarioConsumer usuarioConsumer,
                                     LivroProducer livroProducer, 
-                                    LivroConsumer livroConsumer)
+                                    LivroConsumer livroConsumer,
+                                    AdminConsumer adminConsumer)
     {
         _emprestimoService = emprestimoService;
         _usuarioService = usuarioService;
@@ -40,6 +42,7 @@ public class EmprestimoDomainService : IEmprestimoDomainService
         _usuarioConsumer = usuarioConsumer;
         _livroProducer = livroProducer;
         _livroConsumer = livroConsumer;
+        _adminConsumer = adminConsumer;
     }
 
     public void IniciarConsumo()
@@ -47,13 +50,14 @@ public class EmprestimoDomainService : IEmprestimoDomainService
         _emprestimoConsumer.StartEmprestimoConsuming();
         _usuarioConsumer.StartUsuarioConsuming();
         _livroConsumer.StartLivroConsuming();
+        _adminConsumer.StartAdminConsuming();
     }
 
     public async Task<EmprestimoDTO> CriaNovoEmprestimo(EmprestimoDTO emprestimoDto)
     {
         try
         { 
-            List<EmprestimoDTO> emprestimos = await _emprestimoService.RecuperaTodosEmprestimos();
+            List<EmprestimoDTO> emprestimos = await _emprestimoService.RecuperaTodosEmprestimosAtivos();
             UsuarioDTO usuario = await _usuarioService.RecuperaUsuarioPorId(emprestimoDto.UsuarioId);
             LivroDTO livro = await _livroService.RecuperaLivroPorId(emprestimoDto.LivroId);
             
@@ -71,9 +75,9 @@ public class EmprestimoDomainService : IEmprestimoDomainService
                 throw new Exception("Limite de empréstimos antigido pelo usuário!");
             }
 
-            if (usuario.Status == StatusUsuario.Bloqueado)
+            if (usuario.Status != StatusUsuario.Ativo)
             {
-                throw new Exception("Usuário bloqueado!");
+                throw new Exception($"Usuário {usuario.Status.ToString()}!");
             }
 
             if (livro.disponibilidade != StatusLivro.Disponivel)
@@ -84,6 +88,7 @@ public class EmprestimoDomainService : IEmprestimoDomainService
             livro.disponibilidade = StatusLivro.Emprestado;
             await _livroService.AtualizaLivro(livro, emprestimoDto.LivroId);
 
+            _emprestimoProducer.EnviaAvisoEmprestimoRealizadoComSucesso(emprestimoDto);
             return await _emprestimoService.CriaNovoEmprestimo(emprestimoDto);
 
         } catch (ArgumentException error)
@@ -101,17 +106,17 @@ public class EmprestimoDomainService : IEmprestimoDomainService
             LivroDTO livro = await _livroService.RecuperaLivroPorId(emprestimoAntigo.LivroId);
             livro.disponibilidade = StatusLivro.Disponivel;
             await _livroService.AtualizaLivro(livro, livro.livroId);
-            _livroProducer.EnviaAvisoLivroDisponivel(livro.nome);
+            _livroProducer.EnviaAvisoLivroDisponivel(livro);
             
 
             if (DateTime.Compare(emprestimoAntigo.DataDevolucao, DateTime.Today) < 0)
             {
                 UsuarioDTO usuario = await _usuarioService.RecuperaUsuarioPorId(emprestimoAntigo.UsuarioId);
                 usuario.Status = StatusUsuario.Bloqueado;
-                await _usuarioService.AtualizaUsuario(usuario, usuario.UsuarioId);
-                string mensagemBloqueio = "Livro devolvido com atrasado, usuário bloqueado.";
-                _usuarioProducer.EnviaAvisoUsuarioBloqueado(mensagemBloqueio);
+                await _usuarioService.AtualizaUsuario(usuario, emprestimoAntigo.UsuarioId);
+                _usuarioProducer.EnviaAvisoUsuarioBloqueado(usuario);
                 emprestimoAntigo.Status = StatusEmprestimo.Atrasado;
+                _emprestimoProducer.EnviaAvisoEmprestimoFinalizado(emprestimoAntigo);
                 await _emprestimoService.AtualizaEmprestimo(emprestimoAntigo, emprestimoAntigo.EmprestimoId);
                 return true;
             }
@@ -119,10 +124,12 @@ public class EmprestimoDomainService : IEmprestimoDomainService
             emprestimoAntigo.Status = StatusEmprestimo.Concluido;
             await _emprestimoService.AtualizaEmprestimo(emprestimoAntigo, emprestimoAntigo.EmprestimoId);
             
+            _emprestimoProducer.EnviaAvisoEmprestimoFinalizado(emprestimoAntigo);
             return true;
         } catch (ArgumentException error)
         {
-            throw new ApplicationException("Ocorreu um erro com os dados fornecidos.", error);
+            Console.Write("Ocorreu um erro com os dados fornecidos.\n" + error);
+            return false;
         }
     }
 }

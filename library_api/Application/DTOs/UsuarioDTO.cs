@@ -6,9 +6,11 @@ namespace library_api.Application.DTOs;
 
 public class UsuarioDTO
 {
+    
+    public UsuarioDTO(){}
     public UsuarioDTO(Usuario usuario)
     {
-        UsuarioId = usuario.Id;
+        UsuarioId = usuario.UsuarioId;
         Nome = usuario.Nome;
         Email = usuario.Email;
         Telefone = usuario.Telefone;

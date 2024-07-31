@@ -6,6 +6,8 @@ namespace library_api.Application.DTOs;
 
 public class EmprestimoDTO
 {
+    
+    public EmprestimoDTO(){}
     public EmprestimoDTO(Emprestimo emprestimo)
     {
         EmprestimoId = emprestimo.EmprestimoId;
@@ -20,7 +22,7 @@ public class EmprestimoDTO
     {
         DataEmprestimo = DateTime.Today;
         DataDevolucao = emprestimoRequest.DataDevolucao;
-        Status = emprestimoRequest.Status;
+        Status = StatusEmprestimo.Ativo;
         UsuarioId = emprestimoRequest.UsuarioId;
         LivroId = emprestimoRequest.LivroId;
     }

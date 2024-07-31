@@ -1,4 +1,5 @@
 using library_api.Application.DTOs;
+using library_api.Domain.Enums;
 
 namespace library_api.Presentation.Requests;
 
@@ -8,12 +9,15 @@ public record UsuarioReturn
 
     public UsuarioReturn(UsuarioDTO usuarioDto)
     {
+        UsuarioId = usuarioDto.UsuarioId;
         Nome = usuarioDto.Nome;
         Email = usuarioDto.Email;
         Telefone = usuarioDto.Telefone;
         Cargo = usuarioDto.Cargo.ToString();
+        Status = usuarioDto.Status.ToString();
     }
 
+    public int UsuarioId { get; init; }
     public string Nome { get; init; }
 
     public string Email { get; init; }
@@ -21,5 +25,7 @@ public record UsuarioReturn
     public string Telefone { get; init; }
 
     public string Cargo { get; init; }
+
+    public string Status { get; init; }
 
 }

@@ -1,4 +1,6 @@
 using System.Text;
+using System.Text.Json;
+using library_api.Application.DTOs;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
@@ -15,20 +17,61 @@ public class EmprestimoConsumer
 
     public void StartEmprestimoConsuming()
     {
-        // var consumer = new EventingBasicConsumer(_channel);
-        //
-        // consumer.Received += (sender, eventArgs) =>
-        // {
-        //     byte[] body = eventArgs.Body.ToArray();
-        //     string mensagem = Encoding.UTF8.GetString(body);
-        //     ProcessarMensagem(mensagem);
-        // };
-        //
-        // _channel.BasicConsume(queue: "usuario-bloqueado", autoAck: true, consumer: consumer);
+        var emprestimoCriadoConsumer = new EventingBasicConsumer(_channel);
+        var emprestimoFinalizadoConsumer = new EventingBasicConsumer(_channel);
+
+        emprestimoCriadoConsumer.Received += (sender, eventArgs) =>
+        {
+            try
+            {
+                var body = eventArgs.Body.ToArray();
+                var json = Encoding.UTF8.GetString(body);
+                var emprestimo = JsonSerializer.Deserialize<EmprestimoDTO>(json);
+            
+                if (emprestimo != null)
+                {
+                    ProcessarEmprestimoCriadoMensagem(emprestimo);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao processar mensagem: {ex.Message}");
+            }
+        };
+
+        emprestimoFinalizadoConsumer.Received += (sender, eventArgs) =>
+        {
+            try
+            {
+                var body = eventArgs.Body.ToArray();
+                var json = Encoding.UTF8.GetString(body);
+                var emprestimo = JsonSerializer.Deserialize<EmprestimoDTO>(json);
+            
+                if (emprestimo != null)
+                {
+                    ProcessarEmprestimoFinalizadoMensagem(emprestimo);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao processar mensagem: {ex.Message}");
+            }
+        };
+
+        _channel.BasicConsume(queue: "emprestimo-criado", autoAck: true, consumer: emprestimoCriadoConsumer);
+        _channel.BasicConsume(queue: "emprestimo-finalizado", autoAck: true, consumer: emprestimoFinalizadoConsumer);
     }
 
-    private void ProcessarMensagem(string mensagem)
+
+    private void ProcessarEmprestimoCriadoMensagem(EmprestimoDTO emprestimoDto)
     {
-        Console.WriteLine($"Mensagem recebida: {mensagem}");
+        Console.WriteLine($"====================================================================================\n" + 
+                          $"Usuário de Id {emprestimoDto.UsuarioId} realizou um emprestimo do livro de Id {emprestimoDto.LivroId}. \nData de entrega: {emprestimoDto.DataDevolucao}\n");
+    }
+    
+    private void ProcessarEmprestimoFinalizadoMensagem(EmprestimoDTO emprestimoDto)
+    {
+        Console.WriteLine($"====================================================================================\n" +
+                          $"Empréstimo de Id {emprestimoDto.EmprestimoId} finalizado com status {emprestimoDto.Status.ToString().ToUpper()}\n");
     }
 }

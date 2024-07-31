@@ -11,7 +11,7 @@ public class Usuario
 
     public Usuario(UsuarioDTO usuarioDTO)
     {
-        Id = usuarioDTO.UsuarioId;
+        UsuarioId = usuarioDTO.UsuarioId;
         Nome = usuarioDTO.Nome;
         Email = usuarioDTO.Email;
         Senha = usuarioDTO.Senha;
@@ -22,8 +22,8 @@ public class Usuario
     
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    [Column("usuario_id")]
-    public int Id { get; set; }
+    [Column("usuarioId")]
+    public int UsuarioId { get; set; }
 
     [Required(ErrorMessage = "Nome obrigatório")]
     [Column("nome")]

@@ -32,4 +32,8 @@
     <Compile Remove="LivroControllerTest.cs" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="InfrastructureTest\MessagingTest\ConsumerTest\" />
+  </ItemGroup>
+
 </Project>

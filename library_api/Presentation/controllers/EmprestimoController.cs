@@ -44,7 +44,7 @@ public class EmprestimoController : ControllerBase
             return StatusCode(StatusCodes.Status500InternalServerError, "Erro ao criar emprestimo.");
         }
 
-        return CreatedAtAction(nameof(Post), new { id = emprestimoCriado.EmprestimoId }, new EmprestimoReturn(emprestimoCriado));
+        return Ok(new EmprestimoReturn(emprestimoCriado));
     }
 
     [HttpGet("recupera-emprestimos")]   

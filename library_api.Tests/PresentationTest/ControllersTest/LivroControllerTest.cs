@@ -35,8 +35,8 @@ public class LivroControllerTest
             genero = GeneroLivro.Ficcao,
             disponibilidade = StatusLivro.Disponivel  
         };
-        _livroDomainServiceMock.Setup(service => service.CriaNovoLivro(novoLivroDTO))
-            .ReturnsAsync(novoLivroDTO);
+        _livroDomainServiceMock.Setup(service => service.CriaNovoLivro(It.IsAny<LivroDTO>()))
+        .ReturnsAsync(novoLivroDTO);
         
         //Act
         var resultado = await _controller.Post(new LivroRequest(novoLivroDTO));

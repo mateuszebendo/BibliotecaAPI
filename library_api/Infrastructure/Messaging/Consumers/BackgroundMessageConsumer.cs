@@ -21,8 +21,10 @@ public class BackgroundMessageConsumer  : BackgroundService
             {
                 var livroService = scope.ServiceProvider.GetRequiredService<ILivroService>();
                 var emprestimoDomainServie = scope.ServiceProvider.GetRequiredService<IEmprestimoDomainService>();
+                var usuarioService = scope.ServiceProvider.GetRequiredService<IUsuarioService>();
                 livroService.IniciarConsumo();
                 emprestimoDomainServie.IniciarConsumo();
+                usuarioService.IniciarConsumo();
             }
 
             await Task.Delay(TimeSpan.FromMinutes(1), stoppingToken);

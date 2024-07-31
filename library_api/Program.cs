@@ -34,6 +34,7 @@ builder.Services.AddSingleton<EmprestimoProducer>();
 builder.Services.AddSingleton<EmprestimoConsumer>();
 builder.Services.AddSingleton<UsuarioProducer>();
 builder.Services.AddSingleton<UsuarioConsumer>();
+builder.Services.AddSingleton<AdminConsumer>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
