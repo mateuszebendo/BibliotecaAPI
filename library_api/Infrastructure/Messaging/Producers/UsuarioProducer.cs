@@ -1,11 +1,12 @@
 using System.Text;
 using System.Text.Json;
 using library_api.Application.DTOs;
+using library_api.Domain.Messaging.Producers;
 using RabbitMQ.Client;
 
 namespace library_api.Infrastructure.Messaging.Producers;
 
-public class UsuarioProducer
+public class UsuarioProducer : IUsuarioProducer
 {
     private readonly IModel _channel;
 
@@ -41,4 +42,5 @@ public class UsuarioProducer
         var body = Encoding.UTF8.GetBytes(json);
         _channel.BasicPublish(exchange: "usuario-alertas", routingKey: "usuario.alterado.alterado", basicProperties: null, body: body);
     }
+
 }

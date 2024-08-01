@@ -460,3 +460,4 @@
 /home/zeze/Documentos/library_api/library_api.Tests/obj/Debug/net8.0/library_api.Tests.pdb
 /home/zeze/Documentos/library_api/library_api.Tests/obj/Debug/net8.0/library_api.Tests.genruntimeconfig.cache
 /home/zeze/Documentos/library_api/library_api.Tests/obj/Debug/net8.0/ref/library_api.Tests.dll
+/home/zeze/Documentos/library_api/library_api.Tests/bin/Debug/net8.0/rabbitmqsettings.json
