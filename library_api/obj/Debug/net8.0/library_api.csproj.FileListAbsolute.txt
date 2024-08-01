@@ -150,3 +150,4 @@
 /home/zeze/Documentos/library_api/library_api/obj/Debug/net8.0/library_api.pdb
 /home/zeze/Documentos/library_api/library_api/obj/Debug/net8.0/library_api.genruntimeconfig.cache
 /home/zeze/Documentos/library_api/library_api/obj/Debug/net8.0/ref/library_api.dll
+/home/zeze/Documentos/library_api/library_api/bin/Debug/net8.0/rabbitmqsettings.json

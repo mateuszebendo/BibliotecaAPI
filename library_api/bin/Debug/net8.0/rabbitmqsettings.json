@@ -1,0 +1,91 @@
+{
+  "Exchanges": [
+    { "Name": "alertas-gerais", "Type": "fanout" },
+    { "Name": "usuario-alertas", "Type": "topic" },
+    { "Name": "livro-alertas", "Type": "direct" },
+    { "Name": "emprestimo-alertas", "Type": "topic" }
+  ],
+  "Queues": [
+    {
+      "Name": "alerta-admin-usuario",
+      "Durable": true,
+      "Exclusive": false,
+      "AutoDelete": false,
+      "Bindings": [
+        { "Exchange": "usuario-alertas", "RoutingKey": "usuario.#" }
+      ]
+    },
+    {
+      "Name": "usuarios-alterado",
+      "Durable": true,
+      "Exclusive": false,
+      "AutoDelete": false,
+      "Bindings": [
+        { "Exchange": "usuario-alertas", "RoutingKey": "usuario.alterado.*" }
+      ]
+    },
+    {
+      "Name": "usuario-criado",
+      "Durable": true,
+      "Exclusive": false,
+      "AutoDelete": false,
+      "Bindings": [
+        { "Exchange": "usuario-alertas", "RoutingKey": "usuario.criado" }
+      ]
+    },
+    {
+      "Name": "livro-disponivel",
+      "Durable": true,
+      "Exclusive": false,
+      "AutoDelete": false,
+      "Bindings": [
+        { "Exchange": "livro-alertas", "RoutingKey": "novo-livro-disponivel" }
+      ]
+    },
+    {
+      "Name": "livro-lancado",
+      "Durable": true,
+      "Exclusive": false,
+      "AutoDelete": false,
+      "Bindings": [
+        { "Exchange": "livro-alertas", "RoutingKey": "novo-livro-lancado" }
+      ]
+    },
+    {
+      "Name": "emprestimo-criado",
+      "Durable": true,
+      "Exclusive": false,
+      "AutoDelete": false,
+      "Bindings": [
+        { "Exchange": "emprestimo-alertas", "RoutingKey": "emprestimo.criado" }
+      ]
+    },
+    {
+      "Name": "emprestimo-finalizado",
+      "Durable": true,
+      "Exclusive": false,
+      "AutoDelete": false,
+      "Bindings": [
+        { "Exchange": "emprestimo-alertas", "RoutingKey": "emprestimo.finalizado" }
+      ]
+    },
+    {
+      "Name": "alerta-admin",
+      "Durable": true,
+      "Exclusive": false,
+      "AutoDelete": false,
+      "Bindings": [
+        { "Exchange": "alertas-gerais", "RoutingKey": "novo-livro-lancado" }
+      ]
+    },
+    {
+      "Name": "alerta-usuario",
+      "Durable": true,
+      "Exclusive": false,
+      "AutoDelete": false,
+      "Bindings": [
+        { "Exchange": "alertas-gerais", "RoutingKey": "novo-livro-lancado" }
+      ]
+    }
+  ]
+}

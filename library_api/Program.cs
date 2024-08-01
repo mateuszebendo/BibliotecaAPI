@@ -15,6 +15,8 @@ var configuration = builder.Configuration;
 
 DatabaseConfig.Initialize(configuration);
 
+builder.Configuration.AddJsonFile("rabbitmqsettings.json", optional: true, reloadOnChange: true);
+
 builder.Services.AddControllers();
 
 builder.Services.AddScoped<ILivroRepository, LivroRepository>();

@@ -8,12 +8,13 @@ internal static class RabbitMQConfig
     {
         services.AddSingleton<IConnection>(sp =>
         {
+            var rabbitMQConfig = configuration.GetSection("RabbitMQ");
             var connectionFactory = new ConnectionFactory()
             {
-                HostName = configuration["RabbitMQ:Host"],
-                Port = int.Parse(configuration["RabbitMQ:Port"]),
-                UserName = configuration["RabbitMQ:Username"],
-                Password = configuration["RabbitMQ:Password"]
+                HostName = rabbitMQConfig["Host"],
+                Port = int.Parse(rabbitMQConfig["Port"]),
+                UserName = rabbitMQConfig["Username"],
+                Password = rabbitMQConfig["Password"]
             };
             return connectionFactory.CreateConnection();
         });
@@ -22,53 +23,30 @@ internal static class RabbitMQConfig
         {
             var connection = sp.GetRequiredService<IConnection>();
             var channel = connection.CreateModel();
-            SetupQueuesAndExchanges(channel);
+            SetupQueuesAndExchanges(channel, configuration);
             return channel;
         });
     }
 
-    public static void SetupQueuesAndExchanges(IModel channel)
+    public static void SetupQueuesAndExchanges(IModel channel, IConfiguration configuration)
     {
-        channel.ExchangeDeclare(exchange: "alertas-gerais", type: ExchangeType.Fanout);
-        channel.ExchangeDeclare(exchange: "usuario-alertas", type: ExchangeType.Topic);
-        channel.ExchangeDeclare(exchange: "livro-alertas", type: ExchangeType.Direct);
-        channel.ExchangeDeclare(exchange: "emprestimo-alertas", type: ExchangeType.Topic);
-        
-        channel.QueueDeclare(queue: "alerta-admin-usuario", durable: true, exclusive: false, autoDelete: false,
-            arguments: null);
-        channel.QueueBind(queue: "alerta-admin-usuario", exchange: "usuario-alertas", routingKey:"usuario.#");
-         
-        channel.QueueDeclare(queue: "usuarios-alterado", durable: true, exclusive: false, autoDelete: false,
-            arguments: null);
-        channel.QueueBind(queue: "usuarios-alterado", exchange: "usuario-alertas", routingKey:"usuario.alterado.*");
-        
-        channel.QueueDeclare(queue: "usuario-criado", durable: true, exclusive: false, autoDelete: false,
-            arguments: null);
-        channel.QueueBind(queue: "usuario-criado", exchange: "usuario-alertas", routingKey:"usuario.criado");
-        
-        channel.QueueDeclare(queue: "livro-disponivel", durable: true, exclusive: false, autoDelete: false,
-            arguments: null);
-        channel.QueueBind(queue: "livro-disponivel", exchange: "livro-alertas", routingKey:"novo-livro-disponivel");
-        
-        channel.QueueDeclare(queue: "livro-lancado", durable: true, exclusive: false, autoDelete: false,
-            arguments: null);
-        channel.QueueBind(queue: "livro-lancado", exchange: "livro-alertas", routingKey:"novo-livro-lancado");
-        
-        channel.QueueDeclare(queue: "emprestimo-criado", durable: true, exclusive: false, autoDelete: false,
-            arguments: null);
-        channel.QueueBind(queue: "emprestimo-criado", exchange: "emprestimo-alertas", routingKey:"emprestimo.criado");
+        var exchanges = configuration.GetSection("Exchanges").Get<List<ExchangeConfig>>();
+        var queues = configuration.GetSection("Queues").Get<List<QueueConfig>>();
 
-        channel.QueueDeclare(queue: "emprestimo-finalizado", durable: true, exclusive: false, autoDelete: false,
-            arguments: null);
-        channel.QueueBind(queue: "emprestimo-finalizado", exchange: "emprestimo-alertas", routingKey:"emprestimo.finalizado");
-        
-        channel.QueueDeclare(queue: "alerta-admin", durable: true, exclusive: false, autoDelete: false,
-            arguments: null);
-        channel.QueueBind(queue: "alerta-admin", exchange: "alertas-gerais", routingKey:"novo-livro-lancado");
-        
-        channel.QueueDeclare(queue: "alerta-usuario", durable: true, exclusive: false, autoDelete: false,
-            arguments: null);
-        channel.QueueBind(queue: "alerta-usuario", exchange: "alertas-gerais", routingKey:"novo-livro-lancado");
+        foreach (var exchange in exchanges)
+        {
+            channel.ExchangeDeclare(exchange: exchange.Name, type: exchange.Type);
+        }
 
+        foreach (var queue in queues)
+        {
+            channel.QueueDeclare(queue: queue.Name, durable: queue.Durable, exclusive: queue.Exclusive, autoDelete: queue.AutoDelete, arguments: queue.Arguments);
+    
+            foreach (var binding in queue.Bindings)
+            {
+                channel.QueueBind(queue: queue.Name, exchange: binding.Exchange, routingKey: binding.RoutingKey);
+            }
+        }
     }
+
 }
