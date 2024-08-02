@@ -1,3 +1,6 @@
 {
-  "BibliotecaAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "\/home\/zeze\/Documentos\/BibliotecaAPI\/BibliotecaAPI"
+  "Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "\/home\/zeze\/Documentos\/BibliotecaAPI\/Application",
+  "Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "\/home\/zeze\/Documentos\/BibliotecaAPI\/Domain",
+  "Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "\/home\/zeze\/Documentos\/BibliotecaAPI\/Infrastructure",
+  "Presentation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "\/home\/zeze\/Documentos\/BibliotecaAPI\/Presentation"
 }

@@ -13,14 +13,12 @@ namespace BibliotecaAPI.Tests.PresentationTest.ControllersTest;
 public class LivroControllerTest
 {
     private readonly Mock<ILivroService> _livroServiceMock;
-    private readonly Mock<ILivroDomainService> _livroDomainServiceMock;
     private readonly LivroController _controller;
 
     public LivroControllerTest()
     {
         _livroServiceMock = new Mock<ILivroService>();
-        _livroDomainServiceMock = new Mock<ILivroDomainService>();
-        _controller = new LivroController(_livroServiceMock.Object, _livroDomainServiceMock.Object);
+        _controller = new LivroController(_livroServiceMock.Object);
     }
 
     [Fact]
@@ -29,13 +27,13 @@ public class LivroControllerTest
         //Arrange
         LivroDTO novoLivroDTO = new LivroDTO()
         {
-            nome = "Livro Teste 1",
-            editora = "Editora Exemplo 1",
-            autor = "Autor Exemplo 1",
-            genero = GeneroLivro.Ficcao,
-            disponibilidade = StatusLivro.Disponivel  
+            Nome = "Livro Teste 1",
+            Editora = "Editora Exemplo 1",
+            Autor = "Autor Exemplo 1",
+            Genero = GeneroLivro.Ficcao,
+            Disponibilidade = StatusLivro.Disponivel  
         };
-        _livroDomainServiceMock.Setup(service => service.CriaNovoLivro(It.IsAny<LivroDTO>()))
+        _livroServiceMock.Setup(service => service.CriaNovoLivro(It.IsAny<LivroDTO>()))
         .ReturnsAsync(novoLivroDTO);
         
         //Act
@@ -45,11 +43,11 @@ public class LivroControllerTest
         var resultadoOK = Assert.IsType<OkObjectResult>(resultado);
         LivroReturn livrosRetornado = Assert.IsType<LivroReturn>(resultadoOK.Value);
         
-        Assert.Equal(livrosRetornado.Nome, novoLivroDTO.nome);
-        Assert.Equal(livrosRetornado.Editora, novoLivroDTO.editora);
-        Assert.Equal(livrosRetornado.Autor, novoLivroDTO.autor);
-        Assert.Equal(livrosRetornado.Genero, novoLivroDTO.genero.ToString());
-        Assert.Equal(livrosRetornado.Disponibilidade, novoLivroDTO.disponibilidade.ToString());
+        Assert.Equal(livrosRetornado.Nome, novoLivroDTO.Nome);
+        Assert.Equal(livrosRetornado.Editora, novoLivroDTO.Editora);
+        Assert.Equal(livrosRetornado.Autor, novoLivroDTO.Autor);
+        Assert.Equal(livrosRetornado.Genero, novoLivroDTO.Genero.ToString());
+        Assert.Equal(livrosRetornado.Disponibilidade, novoLivroDTO.Disponibilidade.ToString());
     }
 
     [Fact]
@@ -61,48 +59,48 @@ public class LivroControllerTest
         {
             new LivroDTO
             {
-                livroId = 1,
-                nome = "Livro Teste 1",
-                editora = "Editora Exemplo 1",
-                autor = "Autor Exemplo 1",
-                genero = GeneroLivro.Ficcao,
-                disponibilidade = StatusLivro.Disponivel
+                LivroId = 1,
+                Nome = "Livro Teste 1",
+                Editora = "Editora Exemplo 1",
+                Autor = "Autor Exemplo 1",
+                Genero = GeneroLivro.Ficcao,
+                Disponibilidade = StatusLivro.Disponivel
             },
             new LivroDTO
             {
-                livroId = 2,
-                nome = "Livro Teste 2",
-                editora = "Editora Exemplo 2",
-                autor = "Autor Exemplo 2",
-                genero = GeneroLivro.Romance,
-                disponibilidade = StatusLivro.Emprestado
+                LivroId = 2,
+                Nome = "Livro Teste 2",
+                Editora = "Editora Exemplo 2",
+                Autor = "Autor Exemplo 2",
+                Genero = GeneroLivro.Romance,
+                Disponibilidade = StatusLivro.Emprestado
             },
             new LivroDTO
             {
-                livroId = 3,
-                nome = "Livro Teste 3",
-                editora = "Editora Exemplo 3",
-                autor = "Autor Exemplo 3",
-                genero = GeneroLivro.Fantasia,
-                disponibilidade = StatusLivro.Emprestado
+                LivroId = 3,
+                Nome = "Livro Teste 3",
+                Editora = "Editora Exemplo 3",
+                Autor = "Autor Exemplo 3",
+                Genero = GeneroLivro.Fantasia,
+                Disponibilidade = StatusLivro.Emprestado
             },
             new LivroDTO
             {
-                livroId = 4,
-                nome = "Livro Teste 4",
-                editora = "Editora Exemplo 4",
-                autor = "Autor Exemplo 4",
-                genero = GeneroLivro.LiteraturaClassica,
-                disponibilidade = StatusLivro.Disponivel
+                LivroId = 4,
+                Nome = "Livro Teste 4",
+                Editora = "Editora Exemplo 4",
+                Autor = "Autor Exemplo 4",
+                Genero = GeneroLivro.LiteraturaClassica,
+                Disponibilidade = StatusLivro.Disponivel
             },
             new LivroDTO
             {
-                livroId = 5,
-                nome = "Livro Teste 5",
-                editora = "Editora Exemplo 5",
-                autor = "Autor Exemplo 5",
-                genero = GeneroLivro.Ficcao,
-                disponibilidade = StatusLivro.Emprestado
+                LivroId = 5,
+                Nome = "Livro Teste 5",
+                Editora = "Editora Exemplo 5",
+                Autor = "Autor Exemplo 5",
+                Genero = GeneroLivro.Ficcao,
+                Disponibilidade = StatusLivro.Emprestado
             }
         };
         _livroServiceMock.Setup(service => service.RecuperaTodosLivros())
@@ -118,7 +116,7 @@ public class LivroControllerTest
         int index = 0;
         foreach (var livroRetornado in livrosRetornados)
         {
-            Assert.Equal(livros[index].livroId, livroRetornado.LivroId);
+            Assert.Equal(livros[index].LivroId, livroRetornado.LivroId);
             index++;
         }
     }
@@ -128,23 +126,23 @@ public class LivroControllerTest
     {
         
         //Arrange
-        int livroId = 1;
+        int LivroId = 1;
         Livro livro = new Livro{LivroId = 1,
                                 Nome = "Livro Teste",
                                 Editora = "Editora Exemplo",
                                 Autor = "Autor Exemplo",
                                 Genero = GeneroLivro.Ficcao,
                                 Disponibilidade = StatusLivro.Disponivel };
-        _livroServiceMock.Setup(service => service.RecuperaLivroPorId(livroId))
+        _livroServiceMock.Setup(service => service.RecuperaLivroPorId(LivroId))
             .ReturnsAsync(new LivroDTO(livro));
         
         //Act
-        var resultado = await _controller.Get(livroId);
+        var resultado = await _controller.Get(LivroId);
         
         //Assert 
         var resultadoOK = Assert.IsType<OkObjectResult>(resultado);
         LivroReturn livroRetornado = Assert.IsType<LivroReturn>(resultadoOK.Value);
         
-        Assert.Equal(livroId, livroRetornado.LivroId);
+        Assert.Equal(LivroId, livroRetornado.LivroId);
     }
 }

@@ -216,6 +216,9 @@
             "projectReferences": {
               "/home/zeze/Documentos/BibliotecaAPI/Application/Application.csproj": {
                 "projectPath": "/home/zeze/Documentos/BibliotecaAPI/Application/Application.csproj"
+              },
+              "/home/zeze/Documentos/BibliotecaAPI/Infrastructure/Infrastructure.csproj": {
+                "projectPath": "/home/zeze/Documentos/BibliotecaAPI/Infrastructure/Infrastructure.csproj"
               }
             }
           }

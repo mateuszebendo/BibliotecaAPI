@@ -12,14 +12,12 @@ namespace BibliotecaAPI.Tests.PresentationTest.ControllersTest;
 public class EmprestimoControllerTest
 {
     private readonly Mock<IEmprestimoService> _emprestimoServiceMock;
-    private readonly Mock<IEmprestimoDomainService> _livroEmprestimoServiceMock;
     private readonly EmprestimoController _controller;
 
     public EmprestimoControllerTest()
     {
         _emprestimoServiceMock = new Mock<IEmprestimoService>();
-        _livroEmprestimoServiceMock = new Mock<IEmprestimoDomainService>();
-        _controller = new EmprestimoController(_emprestimoServiceMock.Object, _livroEmprestimoServiceMock.Object);
+        _controller = new EmprestimoController(_emprestimoServiceMock.Object);
     }
     
     [Fact]
@@ -35,7 +33,7 @@ public class EmprestimoControllerTest
             UsuarioId = 1,
             LivroId = 1
         };
-        _livroEmprestimoServiceMock
+        _emprestimoServiceMock
             .Setup(service => service.CriaNovoEmprestimo(It.IsAny<EmprestimoDTO>()))
             .ReturnsAsync(emprestimoDto);
         
@@ -62,7 +60,7 @@ public class EmprestimoControllerTest
             UsuarioId = 1,
             LivroId = 1
         };
-        _livroEmprestimoServiceMock
+        _emprestimoServiceMock
             .Setup(service => service.ConcluiEmprestimo(It.IsAny<int>()))
             .ReturnsAsync(true);
         
