@@ -35,6 +35,9 @@ $ docker run -d --name BibliotecaAPI -p 15672:15672 -p 5672:5672 rabbitmq:3-mana
 # Compile o projeto
 $ dotnet build
 
+# Acesse o projeto Presentation
+$ cd Presentation
+
 # Execute a aplicação
 $ dotnet run
 
